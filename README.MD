@@ -1,18 +1,6 @@
 # Symfony API Base
 This is a base application for a REST API in the Symfony framework that I created to speed up development by eliminating the need to repeatedly build the base and user system from scratch.
 
-# Features
-- Nelmio api documentation (/api/doc, /api/doc.json) for dev environment
-- Error handling system (manager for handling errors and subscriber for logging and formatting errors output)
-- User system with registration based on symfony security and lexik JWT authentication
-- Logout with JWT tokens blacklisting
-- User management (delete, update, change password, statuses: active, blocked or custom status)
-- Log system (database event logging) - (LogManager)
-- Security features (SSL only mode, maintenance mode, IP address whitelisting, input escaping)
-- Cache manager (using predis)
-- CLI command system (log-manager and user-manager commands)
-- The majority of API bases include test cases in PHPUnit, and the code complies with PHPStan level 8 standards
-
 # Request examples
 All requests accept input data in JSON format and return JSON data back to the client.
 ## register request
