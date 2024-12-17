@@ -4,7 +4,8 @@ This is a base application for a REST API in the Symfony framework that I create
 # Request examples
 All requests accept input data in JSON format and return JSON data back to the client.
 ## register request
-```curl -X POST http://localhost/api/auth/register \
+```
+curl -X POST http://localhost/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
