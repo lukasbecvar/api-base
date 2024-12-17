@@ -1,5 +1,5 @@
 # Symfony API Base
-This is a base application for a REST API in the Symfony framework that I created to speed up development by eliminating the need to repeatedly build the base and user system from scratch.
+This is a base application for a REST API in the Symfony framework that I created to speed up backend development.
 
 # Features
 The base contains essential utilities and functions for validation, logging, error handling, and the user system.
