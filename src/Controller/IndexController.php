@@ -29,7 +29,7 @@ class IndexController extends AbstractController
     {
         return $this->json([
             'status' => 'success',
-            'message' => 'product-vault is running!',
+            'message' => 'api-base is running!',
             'version' => $_ENV['APP_VERSION'],
         ], JsonResponse::HTTP_OK);
     }
