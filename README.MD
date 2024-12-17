@@ -1,6 +1,23 @@
 # Symfony API Base
 This is a base application for a REST API in the Symfony framework that I created to speed up development by eliminating the need to repeatedly build the base and user system from scratch.
 
+# Features
+The base contains essential utilities and functions for validation, logging, error handling, and the user system.
+## API-Documentation
+The application is set up with the Nelmio API Doc Bundle for testing endpoints in the browser at ```/api/doc``` and in JSON format at ```/api/doc.json```.
+
+## Error handling
+Error handling is managed by the ```handleError``` function in the ```ErrorManager class```, which triggers an exception that is listened to by the ```ExceptionEventSubscriber```. The subscriber logs the exception into the exception log and displays an error response for the user.
+
+## Logging system
+For logging, there is the ```LogManager class```, which contains functions for saving and reading logs from the database through the Log entity.
+
+## User system
+The user system is managed by the ```UserManager class```, and login works using a JWT token in the authorization header, thanks to Symfony Security and Lexik JWT.
+
+## CLI commands
+The application has CLI commands for the LogManager and UserManager, and overall system management through the CLI.
+
 # Request examples
 All requests accept input data in JSON format and return JSON data back to the client.
 ## register request
