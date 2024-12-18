@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\User;
+namespace App\Controller\Admin;
 
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * API controller for deleting user
  *
- * @package App\Controller\User
+ * @package App\Controller\Admin
  */
 class UserDeleteController extends AbstractController
 {
@@ -39,7 +39,7 @@ class UserDeleteController extends AbstractController
     #[OA\Post(
         summary: 'Delete user action (delete by user id for admin)',
         description: 'Delete user from database by user id and return status',
-        tags: ['User'],
+        tags: ['Admin'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -69,7 +69,7 @@ class UserDeleteController extends AbstractController
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/user/delete', methods:['POST'], name: 'user_delete')]
+    #[Route('/api/admin/user/delete', methods:['POST'], name: 'admin_user_delete')]
     public function deleteUser(Request $request): JsonResponse
     {
         // get request data

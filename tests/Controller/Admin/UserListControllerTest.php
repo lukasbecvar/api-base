@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\User;
+namespace App\Tests\Controller\Admin;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for user list API endpoint
  *
- * @package App\Tests\Controller\User
+ * @package App\Tests\Controller\Admin
  */
 class UserListControllerTest extends CustomTestCase
 {
@@ -29,7 +29,7 @@ class UserListControllerTest extends CustomTestCase
      */
     public function testGetUsersListWhenRequestMethodIsInvalid(): void
     {
-        $this->client->request('POST', '/api/user/list');
+        $this->client->request('POST', '/api/admin/user/list');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -54,7 +54,7 @@ class UserListControllerTest extends CustomTestCase
      */
     public function testGetUsersListWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('GET', '/api/user/list');
+        $this->client->request('GET', '/api/admin/user/list');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -79,7 +79,7 @@ class UserListControllerTest extends CustomTestCase
      */
     public function testGetUsersListWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/user/list', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('GET', '/api/admin/user/list', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -104,7 +104,7 @@ class UserListControllerTest extends CustomTestCase
      */
     public function testGetUsersListSuccess(): void
     {
-        $this->client->request('GET', '/api/user/list', [], [], [
+        $this->client->request('GET', '/api/admin/user/list', [], [], [
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 

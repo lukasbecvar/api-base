@@ -30,24 +30,29 @@ services:
     # escape request data (for security)
     App\Middleware\EscapeRequestDataMiddleware:
         tags:
-            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 5 }
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 6 }
 
     # check if database is online
     App\Middleware\DatabaseOnlineMiddleware:
         tags:
-            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 4 }
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 5 }
 
     # handle maintenance mode
     App\Middleware\MaintenanceMiddleware:
         tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 3 }
+            - { name: kernel.event_listener, event: kernel.request, priority: 4 }
 
     # check security rules
     App\Middleware\SecurityCheckMiddleware:
         tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 3 }
+
+    # validate auth token and check if token is blacklisted
+    App\Middleware\AuthTokenValidateMiddleware:
+        tags:
             - { name: 'kernel.event_listener', event: 'kernel.request', priority: 2 }
 
-    # middleware for validate auth token and check if token is blacklisted
-    App\Middleware\AuthTokenValidateMiddleware:
+    # check if user is active
+    App\Middleware\UserStatusCheckMiddleware:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.request', priority: 1 }

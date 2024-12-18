@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use OpenApi\Attributes\Parameter;
 use Throwable;
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
@@ -28,6 +29,7 @@ class ErrorController extends AbstractController
      * @return JsonResponse Return error message as json response
      */
     #[Tag(name: "Error")]
+    #[Parameter(name: 'code', in: 'query', description: 'Error code', required: true)]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The error message')]
     #[Route('/error', methods: ['GET'], name: 'error_by_code')]
     public function handleError(Request $request): JsonResponse

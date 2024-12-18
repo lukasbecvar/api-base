@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\User;
+namespace App\Controller\Admin;
 
 use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * API controller for getting users list
  *
- * @package App\Controller\User
+ * @package App\Controller\Admin
  */
 class UserListController extends AbstractController
 {
@@ -31,12 +31,12 @@ class UserListController extends AbstractController
      *
      * @return JsonResponse The users list
      */
-    #[Tag(name: "User")]
+    #[Tag(name: "Admin")]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The users list')]
     #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The unauthorized message')]
     #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The error to get user list')]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/user/list', methods:['GET'], name: 'user_list')]
+    #[Route('/api/admin/user/list', methods:['GET'], name: 'admin_user_list')]
     public function updateUserPassword(): JsonResponse
     {
         // get users list

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\User;
+namespace App\Tests\Controller\Admin;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for delete user api endpoint
  *
- * @package App\Tests\Controller\User
+ * @package App\Tests\Controller\Admin
  */
 class UserDeleteControllerTest extends CustomTestCase
 {
@@ -29,7 +29,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenRequestMethodIsNotValid(): void
     {
-        $this->client->request('GET', '/api/user/delete');
+        $this->client->request('GET', '/api/admin/user/delete');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -54,7 +54,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/user/delete');
+        $this->client->request('POST', '/api/admin/user/delete');
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -79,7 +79,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/user/delete', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('POST', '/api/admin/user/delete', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -104,7 +104,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenRequestDataIsNotProvided(): void
     {
-        $this->client->request('POST', '/api/user/delete', [], [], [
+        $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
@@ -132,7 +132,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenUserIdIsEmpty(): void
     {
-        $this->client->request('POST', '/api/user/delete', [], [], [
+        $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
@@ -162,7 +162,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserWhenUserIdNotExist(): void
     {
-        $this->client->request('POST', '/api/user/delete', [], [], [
+        $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
@@ -192,7 +192,7 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testDeleteUserSuccessful(): void
     {
-        $this->client->request('POST', '/api/user/delete', [], [], [
+        $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
