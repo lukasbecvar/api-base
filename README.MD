@@ -51,7 +51,7 @@ curl -X POST http://localhost/api/auth/logout \
 
 ## user info request
 ```
-curl -X POST http://localhost/api/user/info \
+curl -X GET http://localhost/api/user/info \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer <token>"
 ```
