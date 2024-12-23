@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Command\LogManager;
+namespace App\Tests\Command\Log;
 
 use Exception;
 use App\Manager\LogManager;
 use PHPUnit\Framework\TestCase;
+use App\Command\Log\LogTruncateCommand;
 use PHPUnit\Framework\MockObject\MockObject;
-use App\Command\LogManager\LogTruncateCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * Test cases for logs table truncate command
  *
- * @package App\Tests\Command\LogManager
+ * @package App\Tests\Command\Log
  */
 class LogTruncateCommandTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\LogManager;
+namespace App\Command\Log;
 
 use App\Manager\LogManager;
 use App\Manager\UserManager;
@@ -17,7 +17,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  *
  * Command for reading logs based on the specified filter
  *
- * @package App\Command\LogManager
+ * @package App\Command\Log
  */
 #[AsCommand(name: 'app:log:reader', description: 'Reads logs based on the specified filter')]
 class LogReaderCommand extends Command

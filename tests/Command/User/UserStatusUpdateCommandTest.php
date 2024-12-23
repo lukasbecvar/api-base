@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Tests\Command\UserManager;
+namespace App\Tests\Command\User;
 
 use Exception;
 use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use App\Command\User\UserStatusUpdateCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
-use App\Command\UserManager\UserStatusUpdateCommand;
 
 /**
  * Class UserStatusUpdateCommandTest
  *
  * Test cases for user status update command
  *
- * @package App\Tests\Command\UserManager
+ * @package App\Tests\Command\User
  */
 class UserStatusUpdateCommandTest extends TestCase
 {

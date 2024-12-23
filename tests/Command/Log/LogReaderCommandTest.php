@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Tests\Command\LogManager;
+namespace App\Tests\Command\Log;
 
 use DateTime;
 use App\Entity\Log;
 use App\Manager\LogManager;
 use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
+use App\Command\Log\LogReaderCommand;
 use PHPUnit\Framework\MockObject\MockObject;
-use App\Command\LogManager\LogReaderCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  *
  * Test cases for log reader command
  *
- * @package App\Tests\Command\LogManager
+ * @package App\Tests\Command\Log
  */
 class LogReaderCommandTest extends TestCase
 {

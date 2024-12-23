@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\UserManager;
+namespace App\Command\User;
 
 use Exception;
 use App\Manager\UserManager;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Command for updating user role
  *
- * @package App\Command\UserManager
+ * @package App\Command\User
  */
 #[AsCommand(name: 'app:user:role:update', description: 'Add or remove user role')]
 class UserUpdateRoleCommand extends Command

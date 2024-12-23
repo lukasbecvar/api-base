@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Command\LogManager;
+namespace App\Tests\Command\Log;
 
 use App\Manager\LogManager;
 use PHPUnit\Framework\TestCase;
+use App\Command\Log\LogStatusUpdateCommand;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
-use App\Command\LogManager\LogStatusUpdateCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -14,13 +14,13 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * Test cases for log status update command
  *
- * @package App\Tests\Command\LogManager
+ * @package App\Tests\Command\Log
  */
 class LogStatusUpdateCommandTest extends TestCase
 {
     private CommandTester $commandTester;
-    private LogStatusUpdateCommand $logStatusUpdateCommand;
     private LogManager & MockObject $logManager;
+    private LogStatusUpdateCommand $logStatusUpdateCommand;
 
     public function setUp(): void
     {

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Command\UserManager;
+namespace App\Tests\Command\User;
 
 use App\Manager\UserManager;
 use App\Util\VisitorInfoUtil;
 use PHPUnit\Framework\TestCase;
+use App\Command\User\UserInfoCommand;
 use PHPUnit\Framework\MockObject\MockObject;
-use App\Command\UserManager\UserInfoCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * Test cases for user info command
  *
- * @package App\Tests\Command\UserManager
+ * @package App\Tests\Command\User
  */
 class UserInfoCommandTest extends TestCase
 {

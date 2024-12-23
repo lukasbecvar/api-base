@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\UserManager;
+namespace App\Command\User;
 
 use Exception;
 use App\Manager\UserManager;
@@ -12,21 +12,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class UserStatusUpdateCommand
+ * Class UserPasswordResetCommand
  *
- * Command for updating user status
+ * Command for reset user password
  *
- * @package App\Command\UserManager
+ * @package App\Command\User
  */
-#[AsCommand(name: 'app:user:status:update', description: 'Update user status')]
-class UserStatusUpdateCommand extends Command
+#[AsCommand(name: 'app:user:password:reset', description: 'Reset user password')]
+class UserPasswordResetCommand extends Command
 {
     private UserManager $userManager;
 
     public function __construct(UserManager $userManager)
     {
-        parent::__construct();
         $this->userManager = $userManager;
+        parent::__construct();
     }
 
     /**
@@ -36,12 +36,11 @@ class UserStatusUpdateCommand extends Command
      */
     protected function configure(): void
     {
-        $this->addArgument('email', InputArgument::REQUIRED, 'Email of the user to delete');
-        $this->addArgument('status', InputArgument::REQUIRED, 'New status of the user');
+        $this->addArgument('email', InputArgument::REQUIRED, 'Email of the user');
     }
 
     /**
-     * Execute user status update command
+     * Execute user password reset command
      *
      * @param InputInterface $input The input interface
      * @param OutputInterface $output The output interface
@@ -56,11 +55,14 @@ class UserStatusUpdateCommand extends Command
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
         $_SERVER['HTTP_USER_AGENT'] = 'CLI-COMMAND';
 
-        // get command arguments
+        // get email argument
         $email = $input->getArgument('email');
-        $status = $input->getArgument('status');
 
         // validate email input
+        if ($email == null) {
+            $io->error('Email cannot be empty.');
+            return Command::INVALID;
+        }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $io->error('Invalid email format.');
             return Command::INVALID;
@@ -68,24 +70,19 @@ class UserStatusUpdateCommand extends Command
 
         // check if user exists
         if (!$this->userManager->checkIfUserEmailAlreadyRegistered($email)) {
-            $io->error('User not found.');
+            $io->error('User not found: ' . $email);
             return Command::INVALID;
         }
 
         // get user id by email
         $id = $this->userManager->getUserIdByEmail($email);
 
-        // check if user status already associated with user
-        if ($this->userManager->getUserStatus($id) === $status) {
-            $io->error('User status already set to: ' . $status);
-            return Command::INVALID;
-        }
-
         try {
-            $this->userManager->updateUserStatus($id, $status);
-            $io->success('User status updated.');
+            // reset and get new password
+            $newPassword = $this->userManager->resetUserPassword($id);
+            $io->success('User password reset: ' . $email . ' the new password is: ' . $newPassword);
         } catch (Exception $e) {
-            $io->error('Error updating user status: ' . $e->getMessage());
+            $io->error('Error resetting user password: ' . $e->getMessage());
             return Command::FAILURE;
         }
 

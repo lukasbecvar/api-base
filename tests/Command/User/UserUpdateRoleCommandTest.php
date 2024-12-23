@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Command\UserManager;
+namespace App\Tests\Command\User;
 
 use Exception;
 use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
+use App\Command\User\UserUpdateRoleCommand;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
-use App\Command\UserManager\UserUpdateRoleCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Tester\CommandTester;
  *
  * Test cases for update user role command
  *
- * @package App\Tests\Command\UserManager
+ * @package App\Tests\Command\User
  */
 class UserUpdateRoleCommandTest extends TestCase
 {

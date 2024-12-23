@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Tests\Command\UserManager;
+namespace App\Tests\Command\User;
 
 use Exception;
 use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
+use App\Command\User\UserDeleteCommand;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
-use App\Command\UserManager\UserPasswordResetCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class UserPasswordResetCommandTest
+ * Class UserDeleteCommandTest
  *
- * Test cases for user password reset command
+ * Test cases for user delete command
  *
- * @package App\Tests\Command\UserManager
+ * @package App\Tests\Command\User
  */
-class UserPasswordResetCommandTest extends TestCase
+class UserDeleteCommandTest extends TestCase
 {
     private CommandTester $commandTester;
     private UserManager & MockObject $userManager;
-    private UserPasswordResetCommand $userPasswordResetCommand;
+    private UserDeleteCommand $userDeleteCommand;
 
     public function setUp(): void
     {
@@ -29,8 +29,8 @@ class UserPasswordResetCommandTest extends TestCase
         $this->userManager = $this->createMock(UserManager::class);
 
         // init command instance
-        $this->userPasswordResetCommand = new UserPasswordResetCommand($this->userManager);
-        $this->commandTester = new CommandTester($this->userPasswordResetCommand);
+        $this->userDeleteCommand = new UserDeleteCommand($this->userManager);
+        $this->commandTester = new CommandTester($this->userDeleteCommand);
     }
 
     /**
@@ -77,8 +77,7 @@ class UserPasswordResetCommandTest extends TestCase
     public function testExecuteCommandUserNotFound(): void
     {
         // simulate user not found
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(false);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(false);
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -92,26 +91,21 @@ class UserPasswordResetCommandTest extends TestCase
     }
 
     /**
-     * Test execute command with successful user password reset
+     * Test execute command with successful user deletion
      *
      * @return void
      */
     public function testExecuteCommandSuccess(): void
     {
+        // testing user id
         $id = 1;
-        $newPassword = 'new-password';
-
-        // simulate user found
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(true);
 
         // mock user manager to return the user id
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')
-            ->with('test@test.com')->willReturn($id);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn($id);
 
-        // expect reset user password call
-        $this->userManager->expects($this->once())->method('resetUserPassword')->with($id)
-            ->willReturn($newPassword);
+        // expect delete user call
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('deleteUser')->with($id);
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -120,30 +114,26 @@ class UserPasswordResetCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('User password reset: test@test.com the new password is: ' . $newPassword, $output);
+        $this->assertStringContainsString("User test@test.com deleted.", $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 
     /**
-     * Test execute command with failure in resetting user password
+     * Test execute command with failure in deleting user
      *
      * @return void
      */
     public function testExecuteCommandFailure(): void
     {
+        // testing user id
         $id = 1;
 
-        // simulate user found
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(true);
-
         // mock user manager to return the user id
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')
-            ->with('test@test.com')->willReturn($id);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn($id);
 
-        // simulate exception during user password reset
-        $this->userManager->expects($this->once())->method('resetUserPassword')->with($id)
-            ->willThrowException(new Exception('Reset error'));
+        // mock exception during user deletion throw exception
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('deleteUser')->with($id)->willThrowException(new Exception('Database error'));
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -152,7 +142,7 @@ class UserPasswordResetCommandTest extends TestCase
         $output = $this->commandTester->getDisplay();
 
         // assert response
-        $this->assertStringContainsString('Error resetting user password: Reset error', $output);
+        $this->assertStringContainsString('Error deleting user: Database error', $output);
         $this->assertEquals(Command::FAILURE, $exitCode);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Command\UserManager;
+namespace App\Tests\Command\User;
 
 use Exception;
 use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
+use App\Command\User\UserRegisterCommand;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Command\Command;
-use App\Command\UserManager\UserRegisterCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  *
  * Test cases for the user register command
  *
- * @package App\Tests\Command\LogManager
+ * @package App\Tests\Command\User
  */
 class UserRegisterCommandTest extends TestCase
 {

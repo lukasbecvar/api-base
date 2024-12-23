@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\LogManager;
+namespace App\Command\Log;
 
 use App\Manager\LogManager;
 use Symfony\Component\Console\Command\Command;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Command for update log status
  *
- * @package App\Command\LogManager
+ * @package App\Command\Log
  */
 #[AsCommand(name: 'app:log:status:update', description: 'Update log status')]
 class LogStatusUpdateCommand extends Command

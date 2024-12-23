@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\LogManager;
+namespace App\Command\Log;
 
 use Exception;
 use App\Manager\LogManager;
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Command for truncating logs table
  *
- * @package App\Command\LogManager
+ * @package App\Command\Log
  */
 #[AsCommand(name: 'app:log:truncate', description: 'Truncate logs table')]
 class LogTruncateCommand extends Command

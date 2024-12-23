@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\UserManager;
+namespace App\Command\User;
 
 use Exception;
 use App\Manager\UserManager;
@@ -12,14 +12,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class UserPasswordResetCommand
+ * Class UserDeleteCommand
  *
- * Command for reset user password
+ * Command for deleting user from database
  *
- * @package App\Command\UserManager
+ * @package App\Command\User
  */
-#[AsCommand(name: 'app:password:reset', description: 'Reset user password')]
-class UserPasswordResetCommand extends Command
+#[AsCommand(name: 'app:user:delete', description: 'Delete user')]
+class UserDeleteCommand extends Command
 {
     private UserManager $userManager;
 
@@ -36,11 +36,11 @@ class UserPasswordResetCommand extends Command
      */
     protected function configure(): void
     {
-        $this->addArgument('email', InputArgument::REQUIRED, 'Email of the user');
+        $this->addArgument('email', InputArgument::REQUIRED, 'Email of the user to delete');
     }
 
     /**
-     * Execute user password reset command
+     * Execute user delete command
      *
      * @param InputInterface $input The input interface
      * @param OutputInterface $output The output interface
@@ -77,12 +77,12 @@ class UserPasswordResetCommand extends Command
         // get user id by email
         $id = $this->userManager->getUserIdByEmail($email);
 
+        // delete user
         try {
-            // reset and get new password
-            $newPassword = $this->userManager->resetUserPassword($id);
-            $io->success('User password reset: ' . $email . ' the new password is: ' . $newPassword);
+            $this->userManager->deleteUser($id);
+            $io->success('User ' . $email . ' deleted.');
         } catch (Exception $e) {
-            $io->error('Error resetting user password: ' . $e->getMessage());
+            $io->error('Error deleting user: ' . $e->getMessage());
             return Command::FAILURE;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\UserManager;
+namespace App\Command\User;
 
 use App\Manager\UserManager;
 use App\Util\VisitorInfoUtil;
@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * Command for getting user info
  *
- * @package App\Command\UserManager
+ * @package App\Command\User
  */
 #[AsCommand(name: 'app:user:info', description: 'Get user info')]
 class UserInfoCommand extends Command

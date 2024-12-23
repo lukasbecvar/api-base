@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\UserManager;
+namespace App\Command\User;
 
 use Exception;
 use App\DTO\UserDTO;
@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  *
  * Command for registering new user
  *
- * @package App\Command\UserManager
+ * @package App\Command\User
  */
 #[AsCommand(name: 'app:user:register', description: 'Register user')]
 class UserRegisterCommand extends Command
