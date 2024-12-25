@@ -79,7 +79,11 @@ class UserInfoControllerTest extends CustomTestCase
      */
     public function testUserInfoWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/user/info', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('GET', '/api/user/info', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
+        ]);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -105,6 +109,8 @@ class UserInfoControllerTest extends CustomTestCase
     public function testUserInfoGetSuccess(): void
     {
         $this->client->request('GET', '/api/user/info', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 

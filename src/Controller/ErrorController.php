@@ -2,10 +2,11 @@
 
 namespace App\Controller;
 
-use OpenApi\Attributes\Parameter;
 use Throwable;
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
+use OpenApi\Attributes\Parameter;
+use Nelmio\ApiDocBundle\Attribute\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,6 +30,7 @@ class ErrorController extends AbstractController
      * @return JsonResponse Return error message as json response
      */
     #[Tag(name: "Error")]
+    #[Security(name: null)]
     #[Parameter(name: 'code', in: 'query', description: 'Error code', required: true)]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The error message')]
     #[Route('/error', methods: ['GET'], name: 'error_by_code')]
@@ -69,6 +71,7 @@ class ErrorController extends AbstractController
      * @return JsonResponse Return not found error message as json response
      */
     #[Tag(name: "Error")]
+    #[Security(name: null)]
     #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'The not found error message')]
     #[Route('/error/notfound', methods:['GET'], name: 'error_not_found')]
     public function handleNotFoundError(): JsonResponse

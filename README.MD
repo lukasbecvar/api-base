@@ -6,6 +6,9 @@ The base contains essential utilities and functions for validation, logging, err
 ## API-Documentation
 The application is set up with the Nelmio API Doc Bundle for testing endpoints in the browser at ```/api/doc``` and in JSON format at ```/api/doc.json```.
 
+## API-Token
+All API requests must have static X-API-Token header set, which is used for validating the request. The token is set in the .env file.
+
 ## Error handling
 Error handling is managed by the ```handleError``` function in the ```ErrorManager class```, which triggers an exception that is listened to by the ```ExceptionEventSubscriber```. The subscriber logs the exception into the exception log and displays an error response for the user.
 
@@ -24,6 +27,7 @@ All requests accept input data in JSON format and return JSON data back to the c
 ```
 curl -X POST http://localhost/api/auth/register \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -d '{
         "email": "test@example.com",
         "first-name": "John",
@@ -36,6 +40,7 @@ curl -X POST http://localhost/api/auth/register \
 ```
 curl -X POST http://localhost/api/auth/login \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -d '{
         "email": "test@test.test",
         "password": "test"
@@ -46,6 +51,7 @@ curl -X POST http://localhost/api/auth/login \
 ```
 curl -X POST http://localhost/api/auth/logout \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -H "Authorization: Bearer <token>"
 ```
 
@@ -53,13 +59,15 @@ curl -X POST http://localhost/api/auth/logout \
 ```
 curl -X GET http://localhost/api/user/info \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -H "Authorization: Bearer <token>"
 ```
 
 ## update user password request
 ```
-curl -X PATCH http://localhost/api/user/data/update/password\
+curl -X PATCH http://localhost/api/user/data/update/password \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -H "Authorization: Bearer <token>" \
     -d '{
         "new-password": "asdfghjkoiuzrewq"
@@ -68,8 +76,9 @@ curl -X PATCH http://localhost/api/user/data/update/password\
 
 ## update user role request
 ```
-curl -X PATCH http://localhost/api/user/data/update/role\
+curl -X PATCH http://localhost/api/user/data/update/role \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -H "Authorization: Bearer <token>" \
     -d '{
         "user-id": 1,
@@ -80,8 +89,9 @@ curl -X PATCH http://localhost/api/user/data/update/role\
 
 ## update user status request
 ```
-curl -X PATCH http://localhost/api/user/data/update/status\
+curl -X PATCH http://localhost/api/user/data/update/status \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -H "Authorization: Bearer <token>" \
     -d '{
         "user-id": 2,
@@ -91,8 +101,9 @@ curl -X PATCH http://localhost/api/user/data/update/status\
 
 ## delete user request
 ```
-curl -X PATCH http://localhost/api/user/delete\
+curl -X PATCH http://localhost/api/user/delete \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -H "Authorization: Bearer <token>" \
     -d '{
         "user-id": 3
@@ -101,8 +112,9 @@ curl -X PATCH http://localhost/api/user/delete\
 
 ## get users list request
 ```
-curl -X GET http://localhost/api/user/list\
+curl -X GET http://localhost/api/user/list \
     -H "Content-Type: application/json" \
+    -H "X-API-TOKEN: 1234" \
     -H "Authorization: Bearer <token>"
 ```
 

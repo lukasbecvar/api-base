@@ -54,7 +54,10 @@ class LogoutControllerTest extends WebTestCase
      */
     public function testLogoutWhenTokenIsBlank(): void
     {
-        $this->client->request('POST', '/api/auth/logout', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'token' => ''
         ]) ?: null);
 
@@ -81,7 +84,10 @@ class LogoutControllerTest extends WebTestCase
      */
     public function testLogoutWhenTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/auth/logout', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'token' => 'invalid-token'
         ]) ?: null);
 
@@ -109,7 +115,10 @@ class LogoutControllerTest extends WebTestCase
     public function testLogoutWhenTokenIsValid(): void
     {
         // make request to login endpoint (to get auth token)
-        $this->client->request('POST', '/api/auth/login', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/login', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'email' => 'test@test.test',
             'password' => 'test'
         ]) ?: null);
@@ -129,7 +138,11 @@ class LogoutControllerTest extends WebTestCase
         $authToken = $loginResponseData['token'];
 
         // make request to logout endpoint
-        $this->client->request('POST', '/api/auth/logout', [], [], ['HTTP_AUTHORIZATION' => 'Bearer ' . $authToken]);
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $authToken
+        ]);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();

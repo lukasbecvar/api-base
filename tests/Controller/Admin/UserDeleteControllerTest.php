@@ -79,7 +79,11 @@ class UserDeleteControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('POST', '/api/admin/user/delete', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('POST', '/api/admin/user/delete', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer invalid-token',
+        ]);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -106,6 +110,7 @@ class UserDeleteControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
 
@@ -134,6 +139,7 @@ class UserDeleteControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
             'user-id' => ''
@@ -164,6 +170,7 @@ class UserDeleteControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
             'user-id' => 999999999
@@ -194,6 +201,7 @@ class UserDeleteControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/user/delete', [], [], [
             'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ], json_encode([
             'user-id' => 3

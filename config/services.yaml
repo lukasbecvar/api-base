@@ -30,20 +30,25 @@ services:
     # escape request data (for security)
     App\Middleware\EscapeRequestDataMiddleware:
         tags:
-            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 6 }
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 7 }
 
     # check if database is online
     App\Middleware\DatabaseOnlineMiddleware:
         tags:
-            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 5 }
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 6 }
 
     # handle maintenance mode
     App\Middleware\MaintenanceMiddleware:
         tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 4 }
+            - { name: kernel.event_listener, event: kernel.request, priority: 5 }
 
     # check security rules
     App\Middleware\SecurityCheckMiddleware:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 4 }
+
+    # validate access token
+    App\Middleware\AccessTokenValidateMiddleware:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.request', priority: 3 }
 

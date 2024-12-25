@@ -56,7 +56,10 @@ class LoginControllerTest extends WebTestCase
      */
     public function testUserLoginWhenEmailIsBlank(): void
     {
-        $this->client->request('POST', '/api/auth/login', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/login', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'email' => '',
             'password' => 'test'
         ]) ?: null);
@@ -85,7 +88,10 @@ class LoginControllerTest extends WebTestCase
      */
     public function testUserLoginWhenPasswordIsBlank(): void
     {
-        $this->client->request('POST', '/api/auth/login', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/login', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'email' => 'test@test.test',
             'password' => ''
         ]) ?: null);
@@ -114,7 +120,10 @@ class LoginControllerTest extends WebTestCase
      */
     public function testUserLoginWhenCredentialsAreInvalid(): void
     {
-        $this->client->request('POST', '/api/auth/login', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/login', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'email' => 'fugazi@fufu.xyz',
             'password' => 'invalid-password'
         ]) ?: null);
@@ -142,7 +151,10 @@ class LoginControllerTest extends WebTestCase
      */
     public function testUserLoginWhenCredentialsAreValid(): void
     {
-        $this->client->request('POST', '/api/auth/login', [], [], ['CONTENT_TYPE' => 'application/json'], json_encode([
+        $this->client->request('POST', '/api/auth/login', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
+        ], json_encode([
             'email' => 'test@test.test',
             'password' => 'test'
         ]) ?: null);

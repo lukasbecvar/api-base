@@ -79,7 +79,11 @@ class UserListControllerTest extends CustomTestCase
      */
     public function testGetUsersListWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('GET', '/api/admin/user/list', [], [], ['HTTP_AUTHORIZATION' => 'Bearer invalid-token']);
+        $this->client->request('GET', '/api/admin/user/list', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
+            'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
+        ]);
 
         // get response content
         $responseContent = $this->client->getResponse()->getContent();
@@ -105,6 +109,8 @@ class UserListControllerTest extends CustomTestCase
     public function testGetUsersListSuccess(): void
     {
         $this->client->request('GET', '/api/admin/user/list', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 

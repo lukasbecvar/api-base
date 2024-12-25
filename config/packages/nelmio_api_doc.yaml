@@ -1,29 +1,30 @@
-nelmio_api_doc:   
+nelmio_api_doc:
     documentation:
-        # doc header title
         info:
             title: 'API Base'
             description: 'REST-API documentation'
             version: '%env(APP_VERSION)%'
 
-        # doc schemes components
+        # security components
         components:
             securitySchemes:
-                DocSecurity:
+                JWTSecurity:
                     type: http
                     scheme: bearer
                     bearerFormat: JWT
+                    description: 'JWT token for user login'
+                    required: true
+                XApiToken:
+                    type: apiKey
+                    in: header
+                    name: X-API-TOKEN
+                    description: 'API Access Token'
+                    required: true
 
-        # security config
+        # include security components
         security:
-            - DocSecurity: []
-            - api_key: []
-            - basic: []
-            - jwt:
-                type: apiKey
-                name: Authorization
-                in: header
-                description: JWT token
+            - JWTSecurity: []   # JWT Security (user login)
+            - XApiToken: []     # API Access Token (validate request)
 
         # static docs
         paths:
