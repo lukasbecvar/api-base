@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\User;
+namespace App\Tests\Controller\User\Admin;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for user data update controller (API endpoint)
  *
- * @package App\Tests\User
+ * @package App\Tests\Controller\User\Admin
  */
 class UserManagerControllerTest extends CustomTestCase
 {

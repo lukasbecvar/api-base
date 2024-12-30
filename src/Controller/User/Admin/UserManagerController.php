@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller\User\Admin;
 
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * API controller for updating user data
  *
- * @package App\Controller\Admin
+ * @package App\Controller\User\Admin
  */
 class UserManagerController extends AbstractController
 {
@@ -39,7 +39,7 @@ class UserManagerController extends AbstractController
     #[OA\Patch(
         summary: 'User role update action (update by user id for admin)',
         description: 'Update user role and return status',
-        tags: ['Admin'],
+        tags: ['Admin user'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -140,7 +140,7 @@ class UserManagerController extends AbstractController
     #[OA\Patch(
         summary: 'User status update action (update by user id for admin)',
         description: 'Update user status and return status',
-        tags: ['Admin'],
+        tags: ['Admin user'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\Admin;
+namespace App\Tests\Controller\User\Admin;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for delete user api endpoint
  *
- * @package App\Tests\Controller\Admin
+ * @package App\Tests\Controller\User\Admin
  */
 class UserDeleteControllerTest extends CustomTestCase
 {
