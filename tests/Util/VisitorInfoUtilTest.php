@@ -106,10 +106,10 @@ class VisitorInfoUtilTest extends TestCase
 
         // test get windows
         $os = $this->visitorInfoUtil->getOs($userAgentWindows);
-        $this->assertEquals('Windows', $os);
+        $this->assertEquals('Windows 10', $os);
 
         // test get linux
         $os = $this->visitorInfoUtil->getOs($userAgentLinux);
-        $this->assertEquals('Linux', $os);
+        $this->assertEquals('Ubuntu', $os);
     }
 }
