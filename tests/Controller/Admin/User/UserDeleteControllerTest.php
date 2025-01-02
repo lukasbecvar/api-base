@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\User\Admin;
+namespace App\Tests\Controller\Admin\User;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for delete user api endpoint
  *
- * @package App\Tests\Controller\User\Admin
+ * @package App\Tests\Controller\Admin\User
  */
 class UserDeleteControllerTest extends CustomTestCase
 {
@@ -31,16 +31,8 @@ class UserDeleteControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/admin/user/delete');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -56,16 +48,8 @@ class UserDeleteControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/user/delete');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('JWT Token not found', $responseData['message']);
@@ -85,16 +69,8 @@ class UserDeleteControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token',
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Invalid JWT Token', $responseData['message']);
@@ -114,16 +90,8 @@ class UserDeleteControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Request body is empty.', $responseData['message']);
@@ -145,16 +113,8 @@ class UserDeleteControllerTest extends CustomTestCase
             'user-id' => ''
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Parameter "status" are required!', $responseData['message']);
@@ -176,16 +136,8 @@ class UserDeleteControllerTest extends CustomTestCase
             'user-id' => 999999999
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('User not found!', $responseData['message']);
@@ -207,16 +159,8 @@ class UserDeleteControllerTest extends CustomTestCase
             'user-id' => 3
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('User deleted successfully!', $responseData['message']);

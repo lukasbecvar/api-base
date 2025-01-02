@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\User\Admin;
+namespace App\Controller\Admin\User;
 
 use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  *
  * API controller for getting users list
  *
- * @package App\Controller\User\Admin
+ * @package App\Controller\Admin\User
  */
 class UserListController extends AbstractController
 {
@@ -31,7 +31,7 @@ class UserListController extends AbstractController
      *
      * @return JsonResponse The users list
      */
-    #[Tag(name: "Admin user")]
+    #[Tag(name: "Admin (user management)")]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The users list')]
     #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The unauthorized message')]
     #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The error to get user list')]

@@ -3,9 +3,9 @@
 namespace App\Tests\Controller\Auth;
 
 use Faker\Factory;
+use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class RegisterControllerTest
@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * @package App\Tests\Controller\Auth
  */
-class RegisterControllerTest extends WebTestCase
+class RegisterControllerTest extends CustomTestCase
 {
     private KernelBrowser $client;
 
@@ -35,16 +35,8 @@ class RegisterControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/api/auth/register');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -67,16 +59,8 @@ class RegisterControllerTest extends WebTestCase
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -101,16 +85,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -135,16 +111,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -169,16 +137,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -203,16 +163,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -237,16 +189,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -271,16 +215,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -305,16 +241,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -339,16 +267,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -373,16 +293,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => '',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -407,16 +319,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 't',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -441,16 +345,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => str_repeat('a', 129),
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -480,16 +376,8 @@ class RegisterControllerTest extends WebTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('success', $responseData['status']);

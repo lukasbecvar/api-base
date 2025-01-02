@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller\User\Admin;
+namespace App\Tests\Controller\Admin\User;
 
 use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for user data update controller (API endpoint)
  *
- * @package App\Tests\Controller\User\Admin
+ * @package App\Tests\Controller\Admin\User
  */
 class UserManagerControllerTest extends CustomTestCase
 {
@@ -31,16 +31,8 @@ class UserManagerControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/admin/user/data/update/role');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -56,16 +48,8 @@ class UserManagerControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/user/data/update/role');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('JWT Token not found', $responseData['message']);
@@ -85,16 +69,8 @@ class UserManagerControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Invalid JWT Token', $responseData['message']);
@@ -118,16 +94,8 @@ class UserManagerControllerTest extends CustomTestCase
             'role' => 'ROLE_ADMIN'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('User id is not valid!', $responseData['message']);
@@ -151,16 +119,8 @@ class UserManagerControllerTest extends CustomTestCase
             'role' => 'ROLE_ADMIN'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Task is not valid!', $responseData['message']);
@@ -184,16 +144,8 @@ class UserManagerControllerTest extends CustomTestCase
             'role' => null
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Parameters: user-id, task(add, remove), role are required!', $responseData['message']);
@@ -217,16 +169,8 @@ class UserManagerControllerTest extends CustomTestCase
             'role' => 'ROLE_ADMIN'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('User already has role: ROLE_ADMIN', $responseData['message']);
@@ -250,16 +194,8 @@ class UserManagerControllerTest extends CustomTestCase
             'role' => 'ROLE_TEST'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Role added successfully!', $responseData['message']);
@@ -275,16 +211,8 @@ class UserManagerControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/user/data/update/status');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -300,16 +228,8 @@ class UserManagerControllerTest extends CustomTestCase
     {
         $this->client->request('PATCH', '/api/admin/user/data/update/status');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('JWT Token not found', $responseData['message']);
@@ -329,16 +249,8 @@ class UserManagerControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Invalid JWT Token', $responseData['message']);
@@ -358,16 +270,8 @@ class UserManagerControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Request body is empty.', $responseData['message']);
@@ -390,16 +294,8 @@ class UserManagerControllerTest extends CustomTestCase
             'status' => ''
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('Parameters user-id and status are required!', $responseData['message']);
@@ -422,16 +318,8 @@ class UserManagerControllerTest extends CustomTestCase
             'status' => 'active'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('User status already set to: active', $responseData['message']);
@@ -454,16 +342,8 @@ class UserManagerControllerTest extends CustomTestCase
             'status' => 'inactive'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('User status updated successfully!', $responseData['message']);

@@ -2,9 +2,9 @@
 
 namespace App\Tests\Controller\Auth;
 
+use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class LogoutControllerTest
@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * @package App\Tests\Controller\Auth
  */
-class LogoutControllerTest extends WebTestCase
+class LogoutControllerTest extends CustomTestCase
 {
     private KernelBrowser $client;
 
@@ -31,16 +31,8 @@ class LogoutControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/api/auth/logout');
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -61,16 +53,8 @@ class LogoutControllerTest extends WebTestCase
             'token' => ''
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('JWT Token not found', $responseData['message']);
@@ -91,16 +75,8 @@ class LogoutControllerTest extends WebTestCase
             'token' => 'invalid-token'
         ]) ?: null);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertEquals('JWT Token not found', $responseData['message']);
@@ -123,16 +99,8 @@ class LogoutControllerTest extends WebTestCase
             'password' => 'test'
         ]) ?: null);
 
-        // get login response
-        $loginResponse = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$loginResponse) {
-            $this->fail('Login response content is empty');
-        }
-
         /** @var array<string> $loginResponseData */
-        $loginResponseData = json_decode($loginResponse, true);
+        $loginResponseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // get auth token
         $authToken = $loginResponseData['token'];
@@ -144,19 +112,11 @@ class LogoutControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $authToken
         ]);
 
-        // get response content
-        $responseContent = $this->client->getResponse()->getContent();
-
-        // check if response content is empty
-        if (!$responseContent) {
-            $this->fail('Response content is empty');
-        }
-
         /** @var array<string> $responseData */
-        $responseData = json_decode($responseContent, true);
+        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
-        $this->assertNotEmpty($responseContent);
+        $this->assertNotEmpty($responseData);
         $this->assertArrayHasKey('status', $responseData);
         $this->assertSame('success', $responseData['status']);
         $this->assertSame('user successfully logged out', $responseData['message']);

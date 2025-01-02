@@ -2,9 +2,9 @@
 
 namespace App\Tests\Controller;
 
+use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class IndexControllerTest
@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * @package App\Tests\Controller
  */
-class IndexControllerTest extends WebTestCase
+class IndexControllerTest extends CustomTestCase
 {
     private KernelBrowser $client;
 
@@ -31,8 +31,8 @@ class IndexControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('success', $response['status']);

@@ -2,9 +2,9 @@
 
 namespace App\Tests\Controller;
 
+use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class ErrorControllerTest
@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * @package App\Tests\Controller
  */
-class ErrorControllerTest extends WebTestCase
+class ErrorControllerTest extends CustomTestCase
 {
     private KernelBrowser $client;
 
@@ -31,8 +31,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -49,8 +49,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=401');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -67,8 +67,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=403');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -85,8 +85,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=404');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -103,8 +103,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=405');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -121,8 +121,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=426');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -139,8 +139,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=429');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -157,8 +157,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=500');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -175,8 +175,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error?code=503');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);
@@ -193,8 +193,8 @@ class ErrorControllerTest extends WebTestCase
     {
         $this->client->request('GET', '/error/notfound');
 
-        // get response data
-        $response = json_decode((string) ($this->client->getResponse()->getContent() ?: '{}'), true);
+        /** @var array<string> $response */
+        $response = $this->getResponseData($this->client->getResponse()->getContent());
 
         // assert response
         $this->assertSame('error', $response['status']);

@@ -32,4 +32,22 @@ class CustomTestCase extends WebTestCase
         // generate JWT token
         return $jwtManager->create($fakeUser);
     }
+
+    /**
+     * Get response data from response content
+     *
+     * @param string|false $responseContent The response content
+     *
+     * @return array<mixed> The response data
+     */
+    public function getResponseData(string|false $responseContent): array
+    {
+        // check if response content is empty
+        if (!$responseContent) {
+            $this->fail('Response content is empty');
+        }
+
+        // decode response data
+        return json_decode($responseContent, true);
+    }
 }
