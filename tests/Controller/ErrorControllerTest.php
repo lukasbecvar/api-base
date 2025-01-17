@@ -2,9 +2,9 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class ErrorControllerTest
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * @package App\Tests\Controller
  */
-class ErrorControllerTest extends CustomTestCase
+class ErrorControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 
@@ -31,12 +31,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('bad request', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('Bad request.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse:: HTTP_BAD_REQUEST);
     }
 
@@ -49,12 +49,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=401');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('unauthorized', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('Unauthorized.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -67,12 +67,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=403');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('forbidden', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('Forbidden.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_FORBIDDEN);
     }
 
@@ -85,12 +85,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=404');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('this route does not exist', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('This route does not exist.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -103,12 +103,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=405');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('this request method is not allowed', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('This request method is not allowed.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
     }
 
@@ -121,12 +121,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=426');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('upgrade required', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('Upgrade required.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UPGRADE_REQUIRED);
     }
 
@@ -139,12 +139,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=429');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('too many requests', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('Too many requests.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_TOO_MANY_REQUESTS);
     }
 
@@ -157,12 +157,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=500');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('internal server error', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('Internal server error.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
     }
 
@@ -175,12 +175,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error?code=503');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('service currently unavailable', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('Service currently unavailable.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_SERVICE_UNAVAILABLE);
     }
 
@@ -193,12 +193,12 @@ class ErrorControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/error/notfound');
 
-        /** @var array<string> $response */
-        $response = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
-        $this->assertSame('error', $response['status']);
-        $this->assertSame('this route does not exist!', $response['message']);
+        $this->assertSame('error', $responseData['status']);
+        $this->assertSame('This route does not exist!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_NOT_FOUND);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\User;
 
+use Exception;
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
 use OpenApi\Attributes as OA;
@@ -39,7 +40,7 @@ class UserManagerController extends AbstractController
     #[OA\Patch(
         summary: 'User role update action (update by user id for admin)',
         description: 'Update user role and return status',
-        tags: ['Admin (user management)'],
+        tags: ['Admin (user manager)'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -63,15 +64,11 @@ class UserManagerController extends AbstractController
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
                 description: 'User not found message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
-            ),
+            )
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/user/data/update/role', methods:['PATCH'], name: 'user_data_update_role')]
+    #[Route('/api/admin/user/update/role', methods:['PATCH'], name: 'user_data_update_role')]
     public function updateUserRole(Request $request): JsonResponse
     {
         // get request data
@@ -82,52 +79,48 @@ class UserManagerController extends AbstractController
 
         // check if request data is valid
         if ($userId === null || $task === null || $role === null || empty($userId) || empty($task) || empty($role)) {
-            $this->errorManager->handleError(
-                message: 'Parameters: user-id, task(add, remove), role are required!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Parameters: user-id, task(add, remove), role are required!'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // check if user id is valid
         if (!is_numeric($userId)) {
-            $this->errorManager->handleError(
-                message: 'User id is not valid!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'User id is not valid!'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // check if task is valid
         if (!in_array($task, ['add', 'remove'])) {
-            $this->errorManager->handleError(
-                message: 'Task is not valid!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Task is not valid (allowed: add, remove)!'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
+        // add role to user
         if ($task === 'add') {
-            // add role to user
             $this->userManager->addRoleToUser((int) $userId, $role);
-
-            // return success message
             return $this->json([
                 'status' => 'success',
                 'message' => 'Role added successfully!'
             ], JsonResponse::HTTP_OK);
+        // remove user role
         } elseif ($task === 'remove') {
-            // remove role from user
             $this->userManager->removeRoleFromUser((int) $userId, $role);
-
-            // return success message
             return $this->json([
                 'status' => 'success',
                 'message' => 'Role removed successfully!'
             ], JsonResponse::HTTP_OK);
-        } else {
-            $this->errorManager->handleError(
-                message: 'Task is not valid!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
         }
+
+        $this->errorManager->handleError(
+            message: 'Unexpected error to update user role!',
+            code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+        );
     }
 
     /**
@@ -140,7 +133,7 @@ class UserManagerController extends AbstractController
     #[OA\Patch(
         summary: 'User status update action (update by user id for admin)',
         description: 'Update user status and return status',
-        tags: ['Admin (user management)'],
+        tags: ['Admin (user manager)'],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
@@ -171,7 +164,7 @@ class UserManagerController extends AbstractController
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/user/data/update/status', methods: ['PATCH'], name: 'update_user_status')]
+    #[Route('/api/admin/user/update/status', methods: ['PATCH'], name: 'update_user_status')]
     public function updateUserStatus(Request $request): JsonResponse
     {
         // get request data
@@ -181,27 +174,33 @@ class UserManagerController extends AbstractController
 
         // check if parameters are valid
         if (empty($userId) || empty($status)) {
-            $this->errorManager->handleError(
-                message: 'Parameters user-id and status are required!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Parameters user-id and status are required!'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // check if user status already associated with user
         if ($this->userManager->getUserStatus($userId) === $status) {
-            $this->errorManager->handleError(
-                message: 'User status already set to: ' . $status,
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'User status already set to: ' . $status . '.'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // update user status
-        $this->userManager->updateUserStatus($userId, $status);
-
-        // return success response
-        return $this->json([
-            'status' => 'success',
-            'message' => 'User status updated successfully!',
-        ], JsonResponse::HTTP_OK);
+        try {
+            $this->userManager->updateUserStatus($userId, $status);
+            return $this->json([
+                'status' => 'success',
+                'message' => 'User status updated successfully!',
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'User status update error',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

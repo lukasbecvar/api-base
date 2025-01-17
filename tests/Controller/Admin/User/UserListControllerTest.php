@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * Test cases for user list API endpoint
  *
- * @package App\Tests\Controller\Admin\User;
+ * @package App\Tests\Controller\Admin\User
  */
 class UserListControllerTest extends CustomTestCase
 {
@@ -31,8 +31,8 @@ class UserListControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/admin/user/list');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -48,11 +48,31 @@ class UserListControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/admin/user/list');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('JWT Token not found', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test get users list when api access token is not provided
+     *
+     * @return void
+     */
+    public function testGetUsersListWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('GET', '/api/admin/user/list', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -69,8 +89,8 @@ class UserListControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Invalid JWT Token', $responseData['message']);
@@ -90,8 +110,8 @@ class UserListControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         /** @var array<mixed> $user */
         $user = $responseData['users'][0];

@@ -31,12 +31,32 @@ class LogoutControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/auth/logout');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Test logout when api access token is not provided
+     *
+     * @return void
+     */
+    public function testLogoutWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('POST', '/api/auth/logout', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('Invalid access token.', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -53,8 +73,8 @@ class LogoutControllerTest extends CustomTestCase
             'token' => ''
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('JWT Token not found', $responseData['message']);
@@ -75,8 +95,8 @@ class LogoutControllerTest extends CustomTestCase
             'token' => 'invalid-token'
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('JWT Token not found', $responseData['message']);
@@ -99,8 +119,8 @@ class LogoutControllerTest extends CustomTestCase
             'password' => 'test'
         ]) ?: null);
 
-        /** @var array<string> $loginResponseData */
-        $loginResponseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $loginResponseData */
+        $loginResponseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // get auth token
         $authToken = $loginResponseData['token'];
@@ -112,14 +132,14 @@ class LogoutControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $authToken
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertNotEmpty($responseData);
         $this->assertArrayHasKey('status', $responseData);
         $this->assertSame('success', $responseData['status']);
-        $this->assertSame('user successfully logged out', $responseData['message']);
+        $this->assertSame('User successfully logged out!', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }

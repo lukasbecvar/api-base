@@ -44,15 +44,15 @@ class ErrorController extends AbstractController
 
         // error messages list
         $messages = [
-            400 => 'bad request',
-            401 => 'unauthorized',
-            403 => 'forbidden',
-            404 => 'this route does not exist',
-            405 => 'this request method is not allowed',
-            426 => 'upgrade required',
-            429 => 'too many requests',
-            500 => 'internal server error',
-            503 => 'service currently unavailable',
+            400 => 'Bad request.',
+            401 => 'Unauthorized.',
+            403 => 'Forbidden.',
+            404 => 'This route does not exist.',
+            405 => 'This request method is not allowed.',
+            426 => 'Upgrade required.',
+            429 => 'Too many requests.',
+            500 => 'Internal server error.',
+            503 => 'Service currently unavailable.',
         ];
 
         // get error message
@@ -78,7 +78,7 @@ class ErrorController extends AbstractController
     {
         return $this->json([
             'status' => 'error',
-            'message' => 'this route does not exist!',
+            'message' => 'This route does not exist!',
         ], JsonResponse::HTTP_NOT_FOUND);
     }
 

@@ -42,7 +42,6 @@ class SecurityController extends AbstractController
     #[Tag(name: "Auth")]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The logout successful message')]
     #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The JWT token Invalid message')]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The logout error message')]
     #[Route('/api/auth/logout', methods:['POST'], name: 'auth_logout')]
     public function logout(Request $request, Security $security): JsonResponse
     {
@@ -53,7 +52,7 @@ class SecurityController extends AbstractController
         if ($authToken == null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'JWT token not set in request',
+                'message' => 'JWT token not set in request!',
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
@@ -64,7 +63,7 @@ class SecurityController extends AbstractController
             // return success response
             return $this->json([
                 'status' => 'success',
-                'message' => 'user successfully logged out',
+                'message' => 'User successfully logged out!',
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             $this->errorManager->handleError(

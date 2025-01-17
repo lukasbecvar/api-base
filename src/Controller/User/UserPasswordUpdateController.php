@@ -2,6 +2,7 @@
 
 namespace App\Controller\User;
 
+use Exception;
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
 use OpenApi\Attributes as OA;
@@ -69,7 +70,7 @@ class UserPasswordUpdateController extends AbstractController
             ),
         ]
     )]
-    #[Route('/api/user/data/update/password', methods:['PATCH'], name: 'user_data_update_password')]
+    #[Route('/api/user/update/password', methods:['PATCH'], name: 'user_data_update_password')]
     public function updateUserPassword(Security $security, Request $request): JsonResponse
     {
         /** @var \App\Entity\User $user */
@@ -77,10 +78,10 @@ class UserPasswordUpdateController extends AbstractController
 
         // check if user found
         if ($user === null) {
-            $this->errorManager->handleError(
-                message: 'User not found!',
-                code: JsonResponse::HTTP_UNAUTHORIZED
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'User not found!',
+            ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         // get new password from request
@@ -89,18 +90,18 @@ class UserPasswordUpdateController extends AbstractController
 
         // check if new password is set
         if ($newPassword === null || empty($newPassword)) {
-            $this->errorManager->handleError(
-                message: 'Parameter "new-password" is required!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Parameter "new-password" is required!',
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // check if new password is valid
         if (strlen($newPassword) < 8 || strlen($newPassword) > 128) {
-            $this->errorManager->handleError(
-                message: 'Parameter "new-password" must be between 8 and 128 characters long!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Parameter "new-password" must be between 8 and 128 characters long!',
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // get user id
@@ -110,17 +111,23 @@ class UserPasswordUpdateController extends AbstractController
         if ($userId === null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'user id not found',
+                'message' => 'User id: ' . $userId . ' not found.',
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
         // update password
-        $this->userManager->updateUserPassword($userId, $newPassword);
-
-        // return success message
-        return $this->json([
-            'status' => 'success',
-            'message' => 'Password updated successfully!'
-        ], JsonResponse::HTTP_OK);
+        try {
+            $this->userManager->updateUserPassword($userId, $newPassword);
+            return $this->json([
+                'status' => 'success',
+                'message' => 'Password updated successfully!'
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'User password update error',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

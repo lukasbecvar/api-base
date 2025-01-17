@@ -31,8 +31,8 @@ class UserInfoControllerTest extends CustomTestCase
     {
         $this->client->request('POST', '/api/user/info');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -48,11 +48,31 @@ class UserInfoControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/user/info');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('JWT Token not found', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test user info when api access token is not provided
+     *
+     * @return void
+     */
+    public function testUserInfoWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('GET', '/api/user/info', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -69,8 +89,8 @@ class UserInfoControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Invalid JWT Token', $responseData['message']);
@@ -90,20 +110,20 @@ class UserInfoControllerTest extends CustomTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertNotEmpty($responseData);
-        $this->assertArrayHasKey('email', $responseData);
-        $this->assertArrayHasKey('first-name', $responseData);
-        $this->assertArrayHasKey('last-name', $responseData);
-        $this->assertArrayHasKey('roles', $responseData);
-        $this->assertArrayHasKey('register-time', $responseData);
-        $this->assertArrayHasKey('last-login-time', $responseData);
-        $this->assertArrayHasKey('ip-address', $responseData);
-        $this->assertArrayHasKey('user-agent', $responseData);
-        $this->assertArrayHasKey('status', $responseData);
+        $this->assertArrayHasKey('email', $responseData['data']);
+        $this->assertArrayHasKey('first-name', $responseData['data']);
+        $this->assertArrayHasKey('last-name', $responseData['data']);
+        $this->assertArrayHasKey('roles', $responseData['data']);
+        $this->assertArrayHasKey('register-time', $responseData['data']);
+        $this->assertArrayHasKey('last-login-time', $responseData['data']);
+        $this->assertArrayHasKey('ip-address', $responseData['data']);
+        $this->assertArrayHasKey('user-agent', $responseData['data']);
+        $this->assertArrayHasKey('status', $responseData['data']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_OK);
     }
 }

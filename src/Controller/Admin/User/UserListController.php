@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin\User;
 
+use Exception;
 use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
+use App\Manager\ErrorManager;
 use OpenApi\Attributes\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,10 +22,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class UserListController extends AbstractController
 {
     private UserManager $userManager;
+    private ErrorManager $errorManager;
 
-    public function __construct(UserManager $userManager)
+    public function __construct(UserManager $userManager, ErrorManager $errorManager)
     {
         $this->userManager = $userManager;
+        $this->errorManager = $errorManager;
     }
 
     /**
@@ -31,21 +35,27 @@ class UserListController extends AbstractController
      *
      * @return JsonResponse The users list
      */
-    #[Tag(name: "Admin (user management)")]
+    #[IsGranted('ROLE_ADMIN')]
+    #[Tag(name: "Admin (user manager)")]
     #[Response(response: JsonResponse::HTTP_OK, description: 'The users list')]
     #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The unauthorized message')]
-    #[Response(response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR, description: 'The error to get user list')]
-    #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/user/list', methods:['GET'], name: 'admin_user_list')]
-    public function updateUserPassword(): JsonResponse
+    public function getUsersList(): JsonResponse
     {
         // get users list
-        $users = $this->userManager->getUsersList();
-
-        // return users list
-        return $this->json([
-            'status' => 'success',
-            'users' => $users,
-        ], JsonResponse::HTTP_OK);
+        try {
+            $users = $this->userManager->getUsersList();
+            return $this->json([
+                'status' => 'success',
+                'count' => count($users),
+                'users' => $users,
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'User list get failed',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Middleware;
 
 use App\Util\AppUtil;
 use App\Manager\ErrorManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 /**
@@ -47,8 +48,8 @@ class AccessTokenValidateMiddleware
         // check if access token is valid
         if ($providedToken !== $this->appUtil->getEnvValue('API_TOKEN')) {
             $this->errorManager->handleError(
-                message: 'Invalid access token',
-                code: 401
+                message: 'Invalid access token.',
+                code: Response::HTTP_UNAUTHORIZED
             );
         }
     }

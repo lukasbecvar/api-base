@@ -2,9 +2,11 @@
 
 namespace App\Controller\Auth;
 
+use Exception;
 use App\DTO\UserDTO;
 use App\Util\AppUtil;
 use App\Manager\UserManager;
+use App\Manager\ErrorManager;
 use OpenApi\Attributes as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,16 +26,19 @@ class RegisterController extends AbstractController
 {
     private AppUtil $appUtil;
     private UserManager $userManager;
+    private ErrorManager $errorManager;
     private ValidatorInterface $validator;
 
     public function __construct(
         AppUtil $appUtil,
         UserManager $userManager,
+        ErrorManager $errorManager,
         ValidatorInterface $validator
     ) {
         $this->appUtil = $appUtil;
         $this->validator = $validator;
         $this->userManager = $userManager;
+        $this->errorManager = $errorManager;
     }
 
     /**
@@ -114,17 +119,23 @@ class RegisterController extends AbstractController
         }
 
         // register new user to database
-        $this->userManager->registerUser(
-            $userDTO->email,
-            $userDTO->firstName,
-            $userDTO->lastName,
-            $userDTO->password
-        );
-
-        // return success response
-        return $this->json([
-            'status' => 'success',
-            'message' => 'User: ' . $userDTO->email . ' created successfully!',
-        ], JsonResponse::HTTP_CREATED);
+        try {
+            $this->userManager->registerUser(
+                $userDTO->email,
+                $userDTO->firstName,
+                $userDTO->lastName,
+                $userDTO->password
+            );
+            return $this->json([
+                'status' => 'success',
+                'message' => 'User: ' . $userDTO->email . ' created successfully!',
+            ], JsonResponse::HTTP_CREATED);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'User create failed',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

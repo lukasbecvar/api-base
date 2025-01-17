@@ -54,7 +54,7 @@ class AccessTokenValidateMiddlewareTest extends TestCase
 
         // expect error handler to be called for invalid token
         $this->errorManager->expects($this->once())->method('handleError')->with(
-            $this->equalTo('Invalid access token'),
+            $this->equalTo('Invalid access token.'),
             $this->equalTo(JsonResponse::HTTP_UNAUTHORIZED)
         );
 

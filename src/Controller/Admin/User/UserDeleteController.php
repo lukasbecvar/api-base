@@ -2,9 +2,12 @@
 
 namespace App\Controller\Admin\User;
 
+use Exception;
+use OpenApi\Attributes\Tag;
 use App\Manager\UserManager;
 use App\Manager\ErrorManager;
-use OpenApi\Attributes as OA;
+use OpenApi\Attributes\Response;
+use OpenApi\Attributes\Parameter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,69 +39,46 @@ class UserDeleteController extends AbstractController
      *
      * @return JsonResponse The status response
      */
-    #[OA\Post(
-        summary: 'Delete user action (delete by user id for admin)',
-        description: 'Delete user from database by user id and return status',
-        tags: ['Admin (user management)'],
-        requestBody: new OA\RequestBody(
-            required: true,
-            content: new OA\JsonContent(
-                type: 'object',
-                properties: [
-                    new OA\Property(property: 'user-id', type: 'int', description: 'User id', example: 2),
-                ]
-            )
-        ),
-        responses: [
-            new OA\Response(
-                response: JsonResponse::HTTP_OK,
-                description: 'The success user delete message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_NOT_FOUND,
-                description: 'User not found message'
-            ),
-            new OA\Response(
-                response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The delete error message'
-            ),
-        ]
-    )]
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/user/delete', methods:['POST'], name: 'admin_user_delete')]
+    #[Tag(name: "Admin (user manager)")]
+    #[Parameter(name: 'user_id', in: 'query', description: 'User id to delete', required: true)]
+    #[Response(response: JsonResponse::HTTP_OK, description: 'The user deleted successfully')]
+    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'User not found')]
+    #[Response(response: JsonResponse::HTTP_BAD_REQUEST, description: 'Parameter "status" are required!')]
+    #[Route('/api/admin/user/delete', methods:['DELETE'], name: 'admin_user_delete')]
     public function deleteUser(Request $request): JsonResponse
     {
-        // get request data
-        $requestData = $request->toArray();
-        $userId = $requestData['user-id'];
+        $userId = (int) $request->request->get('user_id');
 
         // check if parameters are valid
         if (empty($userId)) {
-            $this->errorManager->handleError(
-                message: 'Parameter "status" are required!',
-                code: JsonResponse::HTTP_BAD_REQUEST
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'Parameter "user_id" are required!'
+            ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         // check if user id exist in database
         if (!$this->userManager->checkIfUserIdExistInDatabase($userId)) {
-            $this->errorManager->handleError(
-                message: 'User not found!',
-                code: JsonResponse::HTTP_NOT_FOUND
-            );
+            return $this->json([
+                'status' => 'error',
+                'message' => 'User id: ' . $userId . ' not found in database!'
+            ], JsonResponse::HTTP_NOT_FOUND);
         }
 
         // delete user
-        $this->userManager->deleteUser($userId);
-
-        // return success response
-        return $this->json([
-            'status' => 'success',
-            'message' => 'User deleted successfully!',
-        ], JsonResponse::HTTP_OK);
+        try {
+            $this->userManager->deleteUser($userId);
+            return $this->json([
+                'status' => 'success',
+                'message' => 'User deleted successfully!',
+            ], JsonResponse::HTTP_OK);
+        } catch (Exception $e) {
+            return $this->errorManager->handleError(
+                message: 'User delete error',
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                exceptionMessage: $e->getMessage()
+            );
+        }
     }
 }

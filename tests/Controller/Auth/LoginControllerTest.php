@@ -2,9 +2,9 @@
 
 namespace App\Tests\Auth;
 
-use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class LoginControllerTest
@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * @package App\Tests\Auth
  */
-class LoginControllerTest extends CustomTestCase
+class LoginControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 
@@ -33,8 +33,8 @@ class LoginControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/auth/login');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -56,8 +56,8 @@ class LoginControllerTest extends CustomTestCase
             'password' => 'test'
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -80,8 +80,8 @@ class LoginControllerTest extends CustomTestCase
             'password' => ''
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -104,8 +104,8 @@ class LoginControllerTest extends CustomTestCase
             'password' => 'invalid-password'
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Invalid credentials.', $responseData['message']);
@@ -127,8 +127,8 @@ class LoginControllerTest extends CustomTestCase
             'password' => 'test'
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertNotEmpty($responseData);

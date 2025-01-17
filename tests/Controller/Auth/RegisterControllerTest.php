@@ -3,9 +3,9 @@
 namespace App\Tests\Controller\Auth;
 
 use Faker\Factory;
-use App\Tests\CustomTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Class RegisterControllerTest
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  *
  * @package App\Tests\Controller\Auth
  */
-class RegisterControllerTest extends CustomTestCase
+class RegisterControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
 
@@ -35,12 +35,31 @@ class RegisterControllerTest extends CustomTestCase
     {
         $this->client->request('GET', '/api/auth/register');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_METHOD_NOT_ALLOWED);
+    }
+
+    /**
+     * Test register user when api access token is not provided
+     *
+     * @return void
+     */
+    public function testRegisterUserWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('POST', '/api/auth/register', [], [], [
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertEquals('Invalid access token.', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
     /**
@@ -59,8 +78,8 @@ class RegisterControllerTest extends CustomTestCase
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN']
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -85,8 +104,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -111,8 +130,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -137,8 +156,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -163,8 +182,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -189,8 +208,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -215,8 +234,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -241,8 +260,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -267,8 +286,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -293,8 +312,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => '',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -319,8 +338,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 't',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -345,8 +364,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => str_repeat('a', 129),
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('error', $responseData['status']);
@@ -376,8 +395,8 @@ class RegisterControllerTest extends CustomTestCase
             'password' => 'test123',
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertEquals('success', $responseData['status']);

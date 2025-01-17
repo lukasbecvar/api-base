@@ -30,10 +30,10 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenRequestMethodIsNotValid(): void
     {
-        $this->client->request('GET', '/api/user/data/update/password');
+        $this->client->request('GET', '/api/user/update/password');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('error', $responseData['status']);
@@ -47,13 +47,33 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenAuthTokenIsNotProvided(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password');
+        $this->client->request('PATCH', '/api/user/update/password');
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('JWT Token not found', $responseData['message']);
+        $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Test update user password when api access token is not provided
+     *
+     * @return void
+     */
+    public function testUpdateUserPasswordWhenApiAccessTokenIsNotProvided(): void
+    {
+        $this->client->request('PATCH', '/api/user/update/password', [], [], [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
+        ]);
+
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
+
+        // assert response
+        $this->assertSame('Invalid access token.', $responseData['message']);
         $this->assertResponseStatusCodeSame(JsonResponse::HTTP_UNAUTHORIZED);
     }
 
@@ -64,14 +84,14 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenAuthTokenIsInvalid(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+        $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer invalid-token'
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Invalid JWT Token', $responseData['message']);
@@ -85,14 +105,14 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenNewPasswordIsNotProvided(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+        $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
         ]);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Request body is empty.', $responseData['message']);
@@ -106,7 +126,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenPasswordIsEmpty(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+        $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -114,8 +134,8 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
             'new-password' => ''
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Parameter "new-password" is required!', $responseData['message']);
@@ -129,7 +149,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenPasswordIsTooShort(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+        $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -137,8 +157,8 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
             'new-password' => '1'
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Parameter "new-password" must be between 8 and 128 characters long!', $responseData['message']);
@@ -152,7 +172,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenPasswordIsTooLong(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+        $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -160,8 +180,8 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
             'new-password' => ByteString::fromRandom(130)
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Parameter "new-password" must be between 8 and 128 characters long!', $responseData['message']);
@@ -175,7 +195,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
      */
     public function testUpdateUserPasswordWhenNewPasswordIsValid(): void
     {
-        $this->client->request('PATCH', '/api/user/data/update/password', [], [], [
+        $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
             'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
@@ -183,8 +203,8 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
             'new-password' => 'testtest'
         ]) ?: null);
 
-        /** @var array<string> $responseData */
-        $responseData = $this->getResponseData($this->client->getResponse()->getContent());
+        /** @var array<mixed> $responseData */
+        $responseData = json_decode(($this->client->getResponse()->getContent() ?: '{}'), true);
 
         // assert response
         $this->assertSame('Password updated successfully!', $responseData['message']);
