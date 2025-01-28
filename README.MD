@@ -119,4 +119,4 @@ curl -X GET http://localhost/api/user/list \
 ```
 
 # License
-This software is licensed under the [MIT license](https://github.com/lukasbecvar/api-base/blob/main/LICENSE).
+This software is licensed under the [MIT license](LICENSE).
