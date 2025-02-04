@@ -125,7 +125,7 @@ class UserPasswordUpdateController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'User password update error',
-                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode()),
                 exceptionMessage: $e->getMessage()
             );
         }
