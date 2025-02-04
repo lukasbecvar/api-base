@@ -60,22 +60,43 @@ class RegisterController extends AbstractController
                     new OA\Property(property: 'email', type: 'string', description: 'New user email', example: 'test@testing.test'),
                     new OA\Property(property: 'first-name', type: 'string', description: 'User first name', example: 'John'),
                     new OA\Property(property: 'last-name', type: 'string', description: 'User last name', example: 'Doe'),
-                    new OA\Property(property: 'password', type: 'string', description: 'User password', example: 'securePassword123'),
+                    new OA\Property(property: 'password', type: 'string', description: 'User password', example: 'securePassword123')
                 ]
             )
         ),
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_CREATED,
-                description: 'The success user register message'
+                description: 'The success user register message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User: test@testing.test created successfully!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Invalid request data!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_CONFLICT,
-                description: 'Email already exists error'
+                description: 'Email already exists error',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User email already exists!')
+                    ]
+                )
             )
         ]
     )]
@@ -133,8 +154,8 @@ class RegisterController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'User create failed',
-                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode()),
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

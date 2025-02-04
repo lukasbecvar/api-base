@@ -5,7 +5,9 @@ namespace App\Controller;
 use Throwable;
 use OpenApi\Attributes\Tag;
 use OpenApi\Attributes\Response;
+use OpenApi\Attributes\Property;
 use OpenApi\Attributes\Parameter;
+use OpenApi\Attributes\JsonContent;
 use Nelmio\ApiDocBundle\Attribute\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,7 +34,17 @@ class ErrorController extends AbstractController
     #[Tag(name: "Error")]
     #[Security(name: null)]
     #[Parameter(name: 'code', in: 'query', description: 'Error code', required: true)]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'The error message')]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'The error message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'Internal server error')
+            ]
+        )
+    )]
     #[Route('/error', methods: ['GET'], name: 'error_by_code')]
     public function handleError(Request $request): JsonResponse
     {
@@ -44,19 +56,19 @@ class ErrorController extends AbstractController
 
         // error messages list
         $messages = [
-            400 => 'Bad request.',
-            401 => 'Unauthorized.',
-            403 => 'Forbidden.',
-            404 => 'This route does not exist.',
-            405 => 'This request method is not allowed.',
-            426 => 'Upgrade required.',
-            429 => 'Too many requests.',
-            500 => 'Internal server error.',
-            503 => 'Service currently unavailable.',
+            JsonResponse::HTTP_BAD_REQUEST => 'Bad request.',
+            JsonResponse::HTTP_UNAUTHORIZED => 'Unauthorized.',
+            JsonResponse::HTTP_FORBIDDEN => 'Forbidden.',
+            JsonResponse::HTTP_NOT_FOUND => 'This route does not exist.',
+            JsonResponse::HTTP_METHOD_NOT_ALLOWED => 'This request method is not allowed.',
+            JsonResponse::HTTP_UPGRADE_REQUIRED => 'Upgrade required.',
+            JsonResponse::HTTP_TOO_MANY_REQUESTS => 'Too many requests.',
+            JsonResponse::HTTP_INTERNAL_SERVER_ERROR => 'Internal server error.',
+            JsonResponse::HTTP_SERVICE_UNAVAILABLE => 'Service currently unavailable.',
         ];
 
         // get error message
-        $message = $messages[$code] ?? 'unknown error';
+        $message = $messages[$code] ?? 'Unknown error.';
 
         // return error message as json response
         return $this->json([
@@ -72,7 +84,17 @@ class ErrorController extends AbstractController
      */
     #[Tag(name: "Error")]
     #[Security(name: null)]
-    #[Response(response: JsonResponse::HTTP_NOT_FOUND, description: 'The not found error message')]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'The not found error message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'This route does not exist')
+            ]
+        )
+    )]
     #[Route('/error/notfound', methods:['GET'], name: 'error_not_found')]
     public function handleNotFoundError(): JsonResponse
     {
@@ -95,16 +117,10 @@ class ErrorController extends AbstractController
         $statusCode = $exception instanceof HttpException
             ? $exception->getStatusCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR;
 
-        // build error response
-        $response = [
+        // return error response as json
+        return new JsonResponse(json_encode([
             'status' => 'error',
             'message' => $exception->getMessage(),
-        ];
-
-        // encode response to json
-        $jsonResponse = json_encode($response, JSON_UNESCAPED_UNICODE);
-
-        // return json response
-        return new JsonResponse($jsonResponse, $statusCode, [], true);
+        ], JSON_UNESCAPED_SLASHES), $statusCode, json: true);
     }
 }

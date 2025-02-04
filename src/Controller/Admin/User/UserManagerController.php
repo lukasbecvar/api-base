@@ -55,15 +55,36 @@ class UserManagerController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success user role update message'
+                description: 'The success user role update message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User role updated successfully!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Invalid request data!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
-                description: 'User not found message'
+                description: 'User not found message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User not found!')
+                    ]
+                )
             )
         ]
     )]
@@ -140,26 +161,54 @@ class UserManagerController extends AbstractController
                 type: 'object',
                 properties: [
                     new OA\Property(property: 'user-id', type: 'int', description: 'User id', example: 1),
-                    new OA\Property(property: 'status', type: 'string', description: 'Status', example: 'active'),
+                    new OA\Property(property: 'status', type: 'string', description: 'Status', example: 'active')
                 ]
             )
         ),
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success user status update message'
+                description: 'The success user status update message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User status updated successfully!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Invalid request data!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_NOT_FOUND,
-                description: 'User not found message'
+                description: 'User not found message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User not found!')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
+                description: 'The update error message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Update error!')
+                    ]
+                )
             ),
         ]
     )]
@@ -198,8 +247,8 @@ class UserManagerController extends AbstractController
         } catch (Exception $e) {
             return $this->errorManager->handleError(
                 message: 'User status update error',
-                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode()),
-                exceptionMessage: $e->getMessage()
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

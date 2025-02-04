@@ -54,20 +54,48 @@ class UserPasswordUpdateController extends AbstractController
         responses: [
             new OA\Response(
                 response: JsonResponse::HTTP_OK,
-                description: 'The success password update message'
+                description: 'The success password update message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'success'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Password updated successfully')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_BAD_REQUEST,
-                description: 'Invalid request data message'
+                description: 'Invalid request data message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'Could not decode request body')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_UNAUTHORIZED,
-                description: 'User not found message'
+                description: 'User not found message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User not found')
+                    ]
+                )
             ),
             new OA\Response(
                 response: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-                description: 'The update error message'
-            ),
+                description: 'The update error message',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(property: 'status', type: 'string', example: 'error'),
+                        new OA\Property(property: 'message', type: 'string', example: 'User password update error')
+                    ]
+                )
+            )
         ]
     )]
     #[Route('/api/user/update/password', methods:['PATCH'], name: 'user_data_update_password')]
@@ -124,9 +152,9 @@ class UserPasswordUpdateController extends AbstractController
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
-                message: 'User password update error',
-                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode()),
-                exceptionMessage: $e->getMessage()
+                message: 'Export to export data',
+                exceptionMessage: $e->getMessage(),
+                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode())
             );
         }
     }

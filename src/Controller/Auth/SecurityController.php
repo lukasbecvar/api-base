@@ -7,6 +7,8 @@ use OpenApi\Attributes\Tag;
 use App\Manager\AuthManager;
 use App\Manager\ErrorManager;
 use OpenApi\Attributes\Response;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\JsonContent;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,8 +42,28 @@ class SecurityController extends AbstractController
      * @return JsonResponse The logout status response
      */
     #[Tag(name: "Auth")]
-    #[Response(response: JsonResponse::HTTP_OK, description: 'The logout successful message')]
-    #[Response(response: JsonResponse::HTTP_UNAUTHORIZED, description: 'The JWT token Invalid message')]
+    #[Response(
+        response: JsonResponse::HTTP_OK,
+        description: 'The logout successful message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'success'),
+                new Property(property: 'message', type: 'string', example: 'User successfully logged out!')
+            ]
+        )
+    )]
+    #[Response(
+        response: JsonResponse::HTTP_UNAUTHORIZED,
+        description: 'The JWT token Invalid message',
+        content: new JsonContent(
+            type: 'object',
+            properties: [
+                new Property(property: 'status', type: 'string', example: 'error'),
+                new Property(property: 'message', type: 'string', example: 'Invalid JWT token!')
+            ]
+        )
+    )]
     #[Route('/api/auth/logout', methods:['POST'], name: 'auth_logout')]
     public function logout(Request $request, Security $security): JsonResponse
     {
@@ -68,7 +90,7 @@ class SecurityController extends AbstractController
         } catch (Exception $e) {
             $this->errorManager->handleError(
                 message: 'Logout process error',
-                code: ($e->getCode() === 0 ? JsonResponse::HTTP_INTERNAL_SERVER_ERROR : $e->getCode()),
+                code: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
                 exceptionMessage: $e->getMessage()
             );
         }
