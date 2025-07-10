@@ -116,10 +116,7 @@ class UserUpdateRoleCommandTest extends TestCase
             ->willReturn(true);
 
         // expect add role to user call
-        $this->userManager->expects($this->once())->method('addRoleToUser')->with(
-            id: 1,
-            role: 'ROLE_ADMIN'
-        );
+        $this->userManager->expects($this->once())->method('addRoleToUser')->with(1, 'ROLE_ADMIN');
 
         // execute command
         $exitCode = $this->commandTester->execute([
@@ -151,10 +148,7 @@ class UserUpdateRoleCommandTest extends TestCase
             ->willReturn(true);
 
         // expect remove role from user call
-        $this->userManager->expects($this->once())->method('removeRoleFromUser')->with(
-            id: 1,
-            role: 'ROLE_ADMIN'
-        );
+        $this->userManager->expects($this->once())->method('removeRoleFromUser')->with(1, 'ROLE_ADMIN');
 
         // execute command
         $exitCode = $this->commandTester->execute([

@@ -239,9 +239,9 @@ class UserManagerTest extends TestCase
 
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
-            name: 'user-manager',
-            message: 'User: ' . $email . ' password changed',
-            level: LogManager::LEVEL_INFO
+            'user-manager',
+            'User: ' . $email . ' password changed',
+            LogManager::LEVEL_INFO
         );
 
         // call tested method
@@ -341,9 +341,9 @@ class UserManagerTest extends TestCase
 
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
-            name: 'user-manager',
-            message: 'User: ' . $email . ' updated status to: ' . $newStatus . ' old status was: ' . $oldStatus,
-            level: LogManager::LEVEL_NOTICE
+            'user-manager',
+            'User: ' . $email . ' updated status to: ' . $newStatus . ' old status was: ' . $oldStatus,
+            LogManager::LEVEL_NOTICE
         );
 
         // call the updateUserStatus method
