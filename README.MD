@@ -53,6 +53,7 @@ The application has CLI commands for the LogManager and UserManager, and overall
 | `DATABASE_LOGGING` | Log manager config | `true` |
 | `LOG_LEVEL` | Log level (1: CRITICAL, 2: WARNING, 3: NOTICE, 4: INFO) | `4` |
 | `DATABASE_DRIVER` | Database driver | `pdo_mysql` |
+| `DATABASE_VERSION` | Database version | `8.0.43` |
 | `DATABASE_HOST` | Database host | `127.0.0.1` |
 | `DATABASE_PORT` | Database port | `3306` |
 | `DATABASE_NAME` | Database name | `product_vault` |
@@ -163,7 +164,7 @@ curl -X GET http://localhost/api/user/list \
 ```
 
 ## Dependencies & requirements
-* PHP 8.3
+* PHP
     * [Website](https://php.net)
 * Redis
     * [Website](https://redis.io)

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Deprecated;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,8 +32,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
-    private ?string $email = null;
+    #[ORM\Column(length: 255, unique: true, nullable: false)]
+    private string $email;
 
     #[ORM\Column(length: 255)]
     private ?string $first_name = null;
@@ -75,7 +76,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -201,16 +201,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Get identifier that represents this user
      *
-     * @see UserInterface
+     * @return string The user email identifier
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
+    #[Deprecated(message: 'eraseCredentials() is deprecated since Symfony 7.3 and maybe will be removed in future')]
     public function eraseCredentials(): void
     {
     }

@@ -1,11 +1,8 @@
-# define base php-apache image
-FROM php:8.3-apache
+# define base php-apache image for development server
+FROM php:8.4-apache
 
 # set container working directory
 WORKDIR /var/www
-
-# copy project files to docker image
-# COPY . /var/www/
 
 # install required packages
 RUN apt-get update && apt-get install -y \
