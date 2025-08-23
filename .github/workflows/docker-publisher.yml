@@ -1,10 +1,10 @@
 # publisher for building and publishing docker image to github packages container registry
 name: Publish Docker Image
 
-on:
-  release:
-    types:
-      - created
+# on:
+#   release:
+#     types:
+#       - created
 
 jobs:
   build-and-publish:
