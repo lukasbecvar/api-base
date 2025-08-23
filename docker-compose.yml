@@ -51,7 +51,7 @@ services:
     php:
         build:
             context: .
-            dockerfile: ./.docker/Dockerfile
+            dockerfile: ./.docker/Dockerfile.dev
         container_name: api_base_website
         restart: always
         depends_on:
