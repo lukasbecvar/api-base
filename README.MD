@@ -54,6 +54,9 @@ The application has CLI commands for the LogManager and UserManager, and overall
 | `REGISTRATION_WITH_API_ENDPOINT_ENABLED` | Enable registration API endpoint (true/false) | `true` |
 | `DATABASE_LOGGING` | Log manager config | `true` |
 | `LOG_LEVEL` | Log level (1: CRITICAL, 2: WARNING, 3: NOTICE, 4: INFO) | `4` |
+| `RATE_LIMIT_ENABLED` | Enable rate limit (true/false) | `false` |
+| `RATE_LIMIT_INTERVAL` | Rate limit interval (seconds) | `60` |
+| `RATE_LIMIT_LIMIT` | Rate limit limit | `100` |
 | `DATABASE_DRIVER` | Database driver | `pdo_mysql` |
 | `DATABASE_VERSION` | Database version | `8.0.43` |
 | `DATABASE_HOST` | Database host | `127.0.0.1` |
