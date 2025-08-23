@@ -47,7 +47,7 @@ class UserPasswordUpdateController extends AbstractController
             content: new OA\JsonContent(
                 type: 'object',
                 properties: [
-                    new OA\Property(property: 'new-password', type: 'string', description: 'New user password', example: 'securePassword123'),
+                    new OA\Property(property: 'new-password', type: 'string', description: 'New user password', example: 'securePassword123')
                 ]
             )
         ),

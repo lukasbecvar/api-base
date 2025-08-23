@@ -54,10 +54,7 @@ class LoginEventSubscriberTest extends TestCase
      */
     public function testGetSubscribedEvents(): void
     {
-        $this->assertArrayHasKey(
-            AuthenticationSuccessEvent::class,
-            LoginEventSubscriber::getSubscribedEvents()
-        );
+        $this->assertArrayHasKey(AuthenticationSuccessEvent::class, LoginEventSubscriber::getSubscribedEvents());
     }
 
     /**

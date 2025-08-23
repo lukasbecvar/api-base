@@ -81,7 +81,7 @@ class LogReaderCommand extends Command
         $options = array_filter([
             'status' => $status,
             'user' => $user,
-            'ip' => $ip,
+            'ip' => $ip
         ]);
 
         // init logs array
@@ -151,13 +151,13 @@ class LogReaderCommand extends Command
                 $log->getMessage(),
                 $formattedTime,
                 $log->getIpAddress(),
-                $log->getUserId(),
+                $log->getUserId()
             ];
         }
 
         // render logs table
         $io->table(
-            headers: ['#', 'Name', 'Message', 'time', 'Ip Address', 'User',],
+            headers: ['#', 'Name', 'Message', 'time', 'Ip Address', 'User'],
             rows: $data
         );
 

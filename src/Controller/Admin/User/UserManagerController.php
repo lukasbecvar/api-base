@@ -48,7 +48,7 @@ class UserManagerController extends AbstractController
                 properties: [
                     new OA\Property(property: 'user-id', type: 'int', description: 'User id', example: 1),
                     new OA\Property(property: 'task', type: 'string', description: 'Task (add, remove)', example: 'add'),
-                    new OA\Property(property: 'role', type: 'string', description: 'Role', example: 'ADMIN'),
+                    new OA\Property(property: 'role', type: 'string', description: 'Role', example: 'ADMIN')
                 ]
             )
         ),
@@ -209,7 +209,7 @@ class UserManagerController extends AbstractController
                         new OA\Property(property: 'message', type: 'string', example: 'Update error!')
                     ]
                 )
-            ),
+            )
         ]
     )]
     #[IsGranted('ROLE_ADMIN')]

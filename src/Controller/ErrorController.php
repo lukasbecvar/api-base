@@ -64,7 +64,7 @@ class ErrorController extends AbstractController
             JsonResponse::HTTP_UPGRADE_REQUIRED => 'Upgrade required.',
             JsonResponse::HTTP_TOO_MANY_REQUESTS => 'Too many requests.',
             JsonResponse::HTTP_INTERNAL_SERVER_ERROR => 'Internal server error.',
-            JsonResponse::HTTP_SERVICE_UNAVAILABLE => 'Service currently unavailable.',
+            JsonResponse::HTTP_SERVICE_UNAVAILABLE => 'Service currently unavailable.'
         ];
 
         // get error message

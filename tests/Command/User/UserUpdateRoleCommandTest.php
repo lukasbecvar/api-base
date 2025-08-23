@@ -59,13 +59,10 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteMissingRoleAction(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
-            ->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // execute command
-        $exitCode = $this->commandTester->execute([
-            '--user' => 'test@test.com',
-        ]);
+        $exitCode = $this->commandTester->execute(['--user' => 'test@test.com']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -83,14 +80,10 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithUserNotFound(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
-            ->willReturn(false);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(false);
 
         // execute command
-        $exitCode = $this->commandTester->execute([
-            '--user' => 'test@test.com',
-            '--add' => 'ROLE_ADMIN',
-        ]);
+        $exitCode = $this->commandTester->execute(['--user' => 'test@test.com', '--add' => 'ROLE_ADMIN']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -117,10 +110,7 @@ class UserUpdateRoleCommandTest extends TestCase
         $this->userManager->expects($this->once())->method('addRoleToUser')->with(1, 'ROLE_ADMIN');
 
         // execute command
-        $exitCode = $this->commandTester->execute([
-            '--user' => 'test@test.com',
-            '--add' => 'ROLE_ADMIN',
-        ]);
+        $exitCode = $this->commandTester->execute(['--user' => 'test@test.com', '--add' => 'ROLE_ADMIN']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -147,10 +137,7 @@ class UserUpdateRoleCommandTest extends TestCase
         $this->userManager->expects($this->once())->method('removeRoleFromUser')->with(1, 'ROLE_ADMIN');
 
         // execute command
-        $exitCode = $this->commandTester->execute([
-            '--user' => 'test@test.com',
-            '--remove' => 'ROLE_ADMIN',
-        ]);
+        $exitCode = $this->commandTester->execute(['--user' => 'test@test.com', '--remove' => 'ROLE_ADMIN']);
 
         // get command output
         $output = $this->commandTester->getDisplay();
@@ -174,10 +161,7 @@ class UserUpdateRoleCommandTest extends TestCase
         $this->userManager->expects($this->once())->method('addRoleToUser')->willThrowException(new Exception('Database error'));
 
         // execute command
-        $exitCode = $this->commandTester->execute([
-            '--user' => 'test@test.com',
-            '--add' => 'ROLE_ADMIN',
-        ]);
+        $exitCode = $this->commandTester->execute(['--user' => 'test@test.com', '--add' => 'ROLE_ADMIN']);
 
         // get command output
         $output = $this->commandTester->getDisplay();

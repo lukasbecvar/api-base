@@ -116,7 +116,7 @@ class UserInfoCommand extends Command
 
         // print user info
         $io->table(
-            headers: ['Email', 'First Name', 'Last Name', 'Roles', 'Register Time', 'Last Login Time', 'Ip Address', 'Browser', 'Status',],
+            headers: ['Email', 'First Name', 'Last Name', 'Roles', 'Register Time', 'Last Login Time', 'Ip Address', 'Browser', 'Status'],
             rows: [
                 [
                     $email,
@@ -128,7 +128,7 @@ class UserInfoCommand extends Command
                     $ipAddress,
                     $browser,
                     $status
-                ],
+                ]
             ]
         );
 

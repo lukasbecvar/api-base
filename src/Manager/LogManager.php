@@ -94,7 +94,7 @@ class LogManager
         if ($name == null || $message == null) {
             $this->errorManager->handleError(
                 message: 'Error to get or escape log name or message',
-                code: JsonResponse::HTTP_BAD_REQUEST,
+                code: JsonResponse::HTTP_BAD_REQUEST
             );
         }
 

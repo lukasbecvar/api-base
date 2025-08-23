@@ -107,7 +107,7 @@ class RegisterController extends AbstractController
         if (!$this->appUtil->isRegistrationWithApiEndpointEnabled()) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Registration with API endpoint is disabled!',
+                'message' => 'Registration with API endpoint is disabled!'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 

@@ -87,7 +87,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => 'invalid-user-id',
             'task' => 'add',
@@ -112,7 +112,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => 1,
             'task' => 'invalid-task',
@@ -137,7 +137,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => 1,
             'task' => 'add',
@@ -162,7 +162,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => 1,
             'task' => 'add',
@@ -187,7 +187,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/role', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => 1,
             'task' => 'add',
@@ -267,7 +267,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -288,7 +288,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => '',
             'status' => ''
@@ -312,7 +312,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => 5,
             'status' => 'active'
@@ -336,7 +336,7 @@ class UserManagerControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/admin/user/update/status', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'user-id' => 5,
             'status' => 'inactive'

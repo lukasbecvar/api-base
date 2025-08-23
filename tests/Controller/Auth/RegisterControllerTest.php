@@ -101,7 +101,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => '',
             'first-name' => 'Test',
             'last-name' => 'User',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -127,7 +127,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test',
             'first-name' => 'Test',
             'last-name' => 'User',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -153,7 +153,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@example.com',
             'first-name' => '',
             'last-name' => 'User',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -179,7 +179,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@example.com',
             'first-name' => 'T',
             'last-name' => 'User',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -205,7 +205,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@test.com',
             'first-name' => str_repeat('a', 100),
             'last-name' => 'Test',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -231,7 +231,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@test.com',
             'first-name' => 'Test',
             'last-name' => '',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -257,7 +257,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@test.com',
             'first-name' => 'Test',
             'last-name' => 'T',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -283,7 +283,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@test.com',
             'first-name' => 'Test',
             'last-name' => str_repeat('a', 100),
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -309,7 +309,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@test.com',
             'first-name' => 'Test',
             'last-name' => 'Test',
-            'password' => '',
+            'password' => ''
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -335,7 +335,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@example.com',
             'first-name' => 'Test',
             'last-name' => 'User',
-            'password' => 't',
+            'password' => 't'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -361,7 +361,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => 'test@example.com',
             'first-name' => 'Test',
             'last-name' => 'User',
-            'password' => str_repeat('a', 129),
+            'password' => str_repeat('a', 129)
         ]) ?: null);
 
         /** @var array<mixed> $responseData */
@@ -392,7 +392,7 @@ class RegisterControllerTest extends WebTestCase
             'email' => $email,
             'first-name' => 'Test',
             'last-name' => 'Test',
-            'password' => 'test123',
+            'password' => 'test123'
         ]) ?: null);
 
         /** @var array<mixed> $responseData */

@@ -108,7 +108,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ]);
 
         /** @var array<mixed> $responseData */
@@ -129,7 +129,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'new-password' => ''
         ]) ?: null);
@@ -152,7 +152,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'new-password' => '1'
         ]) ?: null);
@@ -175,7 +175,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'new-password' => ByteString::fromRandom(130)
         ]) ?: null);
@@ -198,7 +198,7 @@ class UserPasswordUpdateControllerTest extends CustomTestCase
         $this->client->request('PATCH', '/api/user/update/password', [], [], [
             'CONTENT_TYPE' => 'application/json',
             'HTTP_X_API_TOKEN' => $_ENV['API_TOKEN'],
-            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken(),
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $this->generateJwtToken()
         ], json_encode([
             'new-password' => 'testtest'
         ]) ?: null);

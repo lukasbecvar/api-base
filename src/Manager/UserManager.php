@@ -247,7 +247,7 @@ class UserManager
         $this->logManager->saveLog(
             name: 'user-manager',
             message: 'New user registered: ' . $email,
-            level: LogManager::LEVEL_NOTICE,
+            level: LogManager::LEVEL_NOTICE
         );
     }
 

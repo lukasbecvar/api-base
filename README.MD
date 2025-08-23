@@ -2,8 +2,8 @@
 This is a base application for a REST API in the Symfony framework that I created to speed up backend development.
 
 ## Index
-* [Getting Started](#getting-started)
 * [Features](#features)
+* [Getting Started](#getting-started)
 * [API-Documentation](#api-documentation)
 * [Authentication](#authentication)
 * [Error handling](#error-handling)
@@ -15,38 +15,38 @@ This is a base application for a REST API in the Symfony framework that I create
 * [Dependencies & requirements](#dependencies--requirements)
 * [License](#license)
 
+## Features
+The base contains essential utilities and functions for validation, logging, error handling, and the user system.
+
 ## Getting Started
-1. **Clone the repository:**
+1. Clone the repository:
 ```bash
 git clone https://github.com/your-username/api-base.git
 cd api-base
 ```
-3. **Build and run containers:**
+3. Build and run containers:
 This command will build the Docker images and start all services (PHP/Apache, MySQL, Redis).
 ```bash
 sh scripts/docker-start-dev.sh
 ```
-4. **Install dependencies:**
+4. Install dependencies:
 Use Composer inside the PHP container to install all required packages (this makes docker-start automatically).
 ```bash
 sh scripts/install.sh
 ```
-5. **Run database migrations:**
+5. Run database migrations:
 This will create the database schema based on your entities.
 ```bash
 sh scripts/migrate.sh
 ```
-6. **Generate JWT keys:**
+6. Generate JWT keys:
 Create the public and private keys required for signing JWT tokens (this makes docker-start automatically).
 ```bash
 docker-compose exec php php bin/console lexik:jwt:generate-keypair
 ```
-7. **The API is now running at `http://localhost`**
-8. **Develop your API**
+7. The API is now running at `http://localhost`
+8. Develop your API
 Now you can rename ```api-base``` to whatever you need, rewrite the configurations, and start developing your API solution.
-
-## Features
-The base contains essential utilities and functions for validation, logging, error handling, and the user system.
 
 ## API-Documentation
 ##### Nelmio UI
