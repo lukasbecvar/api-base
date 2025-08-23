@@ -33,7 +33,7 @@ class CacheManager
     {
         try {
             $status = $this->redis->ping();
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
 

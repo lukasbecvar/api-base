@@ -114,12 +114,7 @@ class UserRegisterCommandTest extends TestCase
 
         // mock successful registration
         $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(false);
-        $this->userManager->expects($this->once())->method('registerUser')->with(
-            'test@test.com',
-            'John',
-            'Doe',
-            'password'
-        );
+        $this->userManager->expects($this->once())->method('registerUser')->with('test@test.com', 'John', 'Doe', 'password');
 
         // execute command
         $exitCode = $this->commandTester->execute([]);

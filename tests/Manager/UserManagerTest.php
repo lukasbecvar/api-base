@@ -71,8 +71,7 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('getId')->willReturn($userId);
 
         // mock repository response
-        $this->userRepositoryMock->expects($this->once())->method('findByEmail')->with($email)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->once())->method('findByEmail')->with($email)->willReturn($user);
 
         // call tested method
         $result = $this->userManager->getUserIdByEmail($email);
@@ -125,22 +124,17 @@ class UserManagerTest extends TestCase
         $userAgent = 'TestAgent';
 
         // mock repository to simulate no existing user
-        $this->userRepositoryMock->expects($this->once())->method('findByEmail')
-            ->with($email)->willReturn(null);
+        $this->userRepositoryMock->expects($this->once())->method('findByEmail')->with($email)->willReturn(null);
 
         // mock get visitor info
-        $this->visitorInfoUtilMock->expects($this->once())->method('getIP')
-            ->willReturn($ipAddress);
-        $this->visitorInfoUtilMock->expects($this->once())->method('getUserAgent')
-            ->willReturn($userAgent);
+        $this->visitorInfoUtilMock->expects($this->once())->method('getIP')->willReturn($ipAddress);
+        $this->visitorInfoUtilMock->expects($this->once())->method('getUserAgent')->willReturn($userAgent);
 
         // expect password hasher to hash password
-        $this->passwordHasherMock->expects($this->once())->method('hashPassword')
-            ->with($this->isInstanceOf(User::class), $password);
+        $this->passwordHasherMock->expects($this->once())->method('hashPassword')->with($this->isInstanceOf(User::class), $password);
 
         // expect entity manager to persist and flush
-        $this->entityManagerMock->expects($this->once())->method('persist')
-            ->with($this->isInstanceOf(User::class));
+        $this->entityManagerMock->expects($this->once())->method('persist')->with($this->isInstanceOf(User::class));
         $this->entityManagerMock->expects($this->once())->method('flush');
 
         // expect save log call
@@ -186,8 +180,7 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('getStatus')->willReturn($status);
 
         // mock repository to return user
-        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)->willReturn($user);
 
         // call tested method
         $result = $this->userManager->getUserInfo($id);
@@ -230,12 +223,10 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('getEmail')->willReturn($email);
 
         // mock repository to return user
-        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)->willReturn($user);
 
         // mock entity manager to persist changes
-        $this->entityManagerMock->expects($this->once())
-            ->method('flush');
+        $this->entityManagerMock->expects($this->once())->method('flush');
 
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
@@ -259,8 +250,7 @@ class UserManagerTest extends TestCase
         $identifier = 'test@test.com';
 
         // mock user repository
-        $this->userRepositoryMock->expects($this->once())->method('findOneBy')->with(['email' => $identifier])
-            ->willReturn(new User());
+        $this->userRepositoryMock->expects($this->once())->method('findOneBy')->with(['email' => $identifier])->willReturn(new User());
 
         // mock visitor info util
         $this->visitorInfoUtilMock->expects($this->once())->method('getIP')->willReturn('127.0.0.1');
@@ -288,17 +278,11 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('getEmail')->willReturn($email);
 
         // mock repository to return the user
-        $this->userRepositoryMock->expects($this->any())
-            ->method('find')
-            ->with($userId)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($userId)->willReturn($user);
 
         // expect entity manager to remove and flush the user
-        $this->entityManagerMock->expects($this->once())
-            ->method('remove')
-            ->with($user);
-        $this->entityManagerMock->expects($this->once())
-            ->method('flush');
+        $this->entityManagerMock->expects($this->once())->method('remove')->with($user);
+        $this->entityManagerMock->expects($this->once())->method('flush');
 
         // expect log manager to save the log
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
@@ -332,12 +316,10 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('setStatus')->with($newStatus);
 
         // mock repository to return the user
-        $this->userRepositoryMock->expects($this->any())->method('find')->with($userId)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($userId)->willReturn($user);
 
         // mock entity manager to persist the changes
-        $this->entityManagerMock->expects($this->once())
-            ->method('flush');
+        $this->entityManagerMock->expects($this->once())->method('flush');
 
         // expect save log call
         $this->logManagerMock->expects($this->once())->method('saveLog')->with(
@@ -362,8 +344,7 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('getStatus')->willReturn('active');
 
         // mock repository to return the user
-        $this->userRepositoryMock->expects($this->any())->method('find')->with(1)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with(1)->willReturn($user);
 
         // call tested method
         $result = $this->userManager->getUserStatus(1);
@@ -388,8 +369,7 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('getEmail')->willReturn($email);
 
         // mock repository to return the user twice
-        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)->willReturn($user);
 
         // expect entity manager to persist and flush
         $this->entityManagerMock->expects($this->once())->method('flush');
@@ -423,8 +403,7 @@ class UserManagerTest extends TestCase
         // mock repository to simulate existing user
         $user = $this->createMock(User::class);
         $user->expects($this->once())->method('getRoles')->willReturn([$role]);
-        $this->userRepositoryMock->expects($this->once())->method('find')
-            ->with($id)->willReturn($user);
+        $this->userRepositoryMock->expects($this->once())->method('find')->with($id)->willReturn($user);
 
         // call tested method
         $this->assertTrue($this->userManager->checkIfUserHasRole($id, $role));
@@ -448,8 +427,7 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('addRole')->with($role);
 
         // mock repository to return the user twice
-        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)->willReturn($user);
 
         // expect entity manager to persist and flush
         $this->entityManagerMock->expects($this->once())->method('flush');
@@ -483,8 +461,7 @@ class UserManagerTest extends TestCase
         $user->expects($this->once())->method('removeRole')->with($role);
 
         // mock repository to return the user twice
-        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)
-            ->willReturn($user);
+        $this->userRepositoryMock->expects($this->any())->method('find')->with($id)->willReturn($user);
 
         // expect entity manager to persist and flush
         $this->entityManagerMock->expects($this->once())->method('flush');

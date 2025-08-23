@@ -108,7 +108,7 @@ class UserPasswordUpdateController extends AbstractController
         if ($user === null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'User not found!',
+                'message' => 'User not found!'
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
@@ -120,7 +120,7 @@ class UserPasswordUpdateController extends AbstractController
         if ($newPassword === null || empty($newPassword)) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Parameter "new-password" is required!',
+                'message' => 'Parameter "new-password" is required!'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -128,7 +128,7 @@ class UserPasswordUpdateController extends AbstractController
         if (strlen($newPassword) < 8 || strlen($newPassword) > 128) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'Parameter "new-password" must be between 8 and 128 characters long!',
+                'message' => 'Parameter "new-password" must be between 8 and 128 characters long!'
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -139,7 +139,7 @@ class UserPasswordUpdateController extends AbstractController
         if ($userId === null) {
             return $this->json([
                 'status' => 'error',
-                'message' => 'User id: ' . $userId . ' not found.',
+                'message' => 'User id: ' . $userId . ' not found.'
             ], JsonResponse::HTTP_UNAUTHORIZED);
         }
 

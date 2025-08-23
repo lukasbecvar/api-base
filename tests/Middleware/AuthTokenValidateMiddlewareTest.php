@@ -45,12 +45,10 @@ class AuthTokenValidateMiddlewareTest extends TestCase
         $token = 'testing_token';
 
         // mock auth token get
-        $this->authManager->expects($this->once())->method('getAuthTokenFromRequest')->with($request)
-            ->willReturn($token);
+        $this->authManager->expects($this->once())->method('getAuthTokenFromRequest')->with($request)->willReturn($token);
 
         // mock token blacklist check
-        $this->authManager->expects($this->once())->method('isTokenBlacklisted')->with($token)
-            ->willReturn(true);
+        $this->authManager->expects($this->once())->method('isTokenBlacklisted')->with($token)->willReturn(true);
 
         // expect error handler call
         $this->errorManager->expects($this->once())->method('handleError')->with(
@@ -77,12 +75,10 @@ class AuthTokenValidateMiddlewareTest extends TestCase
         $token = 'testing_token';
 
         // mock auth token get
-        $this->authManager->expects($this->once())->method('getAuthTokenFromRequest')->with($request)
-            ->willReturn($token);
+        $this->authManager->expects($this->once())->method('getAuthTokenFromRequest')->with($request)->willReturn($token);
 
         // mock token blacklist check
-        $this->authManager->expects($this->once())->method('isTokenBlacklisted')->with($token)
-            ->willReturn(false);
+        $this->authManager->expects($this->once())->method('isTokenBlacklisted')->with($token)->willReturn(false);
 
         // expect error handler not be called
         $this->errorManager->expects($this->never())->method('handleError');

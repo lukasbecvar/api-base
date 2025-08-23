@@ -53,8 +53,7 @@ class CacheManagerTest extends TestCase
     public function testSaveCacheValue(): void
     {
         // expect call set cache value
-        $this->redis->expects($this->once())->method('__call')
-            ->with('set', ['test_key', 'test_value', 'EX', 60]);
+        $this->redis->expects($this->once())->method('__call')->with('set', ['test_key', 'test_value', 'EX', 60]);
 
         // expect no error handling
         $this->errorManager->expects($this->never())->method('handleError');
@@ -71,8 +70,7 @@ class CacheManagerTest extends TestCase
     public function testCheckIsCacheValueExists(): void
     {
         // expect call check cache value exists
-        $this->redis->expects($this->once())->method('__call')
-            ->with('exists', ['test_key']);
+        $this->redis->expects($this->once())->method('__call')->with('exists', ['test_key']);
 
         // expect no error handling
         $this->errorManager->expects($this->never())->method('handleError');
@@ -89,8 +87,7 @@ class CacheManagerTest extends TestCase
     public function testGetCacheValue(): void
     {
         // expect call get cache value
-        $this->redis->expects($this->once())->method('__call')
-            ->with('get', ['test_key']);
+        $this->redis->expects($this->once())->method('__call')->with('get', ['test_key']);
 
         // expect no error handling
         $this->errorManager->expects($this->never())->method('handleError');
@@ -107,8 +104,7 @@ class CacheManagerTest extends TestCase
     public function testDeleteCacheValue(): void
     {
         // expect call delete cache value
-        $this->redis->expects($this->once())->method('__call')
-            ->with('del', ['test_key']);
+        $this->redis->expects($this->once())->method('__call')->with('del', ['test_key']);
 
         // expect no error handling
         $this->errorManager->expects($this->never())->method('handleError');

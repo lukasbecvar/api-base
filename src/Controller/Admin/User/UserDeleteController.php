@@ -103,7 +103,7 @@ class UserDeleteController extends AbstractController
             $this->userManager->deleteUser($userId);
             return $this->json([
                 'status' => 'success',
-                'message' => 'User deleted successfully!',
+                'message' => 'User deleted successfully!'
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(

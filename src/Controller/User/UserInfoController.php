@@ -98,7 +98,7 @@ class UserInfoController extends AbstractController
             if ($user === null) {
                 return $this->json([
                     'status' => 'error',
-                    'message' => 'user not found.',
+                    'message' => 'user not found.'
                 ], JsonResponse::HTTP_UNAUTHORIZED);
             }
 
@@ -109,7 +109,7 @@ class UserInfoController extends AbstractController
             if ($id === null) {
                 return $this->json([
                     'status' => 'error',
-                    'message' => 'user id not found.',
+                    'message' => 'user id not found.'
                 ], JsonResponse::HTTP_NOT_FOUND);
             }
 
@@ -119,7 +119,7 @@ class UserInfoController extends AbstractController
             // return user info
             return $this->json([
                 'status' => 'success',
-                'data' => $userInfo,
+                'data' => $userInfo
             ], JsonResponse::HTTP_OK);
         } catch (Exception $e) {
             return $this->errorManager->handleError(

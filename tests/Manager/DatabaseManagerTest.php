@@ -60,8 +60,7 @@ class DatabaseManagerTest extends TestCase
     public function testTableTruncateThrowsException(): void
     {
         // expect executeStatement call
-        $this->connectionMock->expects($this->once())->method('executeStatement')
-            ->willThrowException(new Exception('Database error'));
+        $this->connectionMock->expects($this->once())->method('executeStatement')->willThrowException(new Exception('Database error'));
 
         // expect handleError call
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(

@@ -24,6 +24,8 @@ The documentation for API endpoints can be found at the route `/api/doc`, with N
 ## Authentication 
 ##### API-Token
 All API requests must have static X-API-Token header set, which is used for validating the request. The token is set in the .env file.
+##### JWT
+JWT token is used for user authentication.
 
 ## Error handling
 Error handling is managed by the ```handleError``` function in the ```ErrorManager class```, which triggers an exception that is listened to by the ```ExceptionEventSubscriber```. The subscriber logs the exception into the exception log and displays an error response for the user.

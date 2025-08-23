@@ -73,7 +73,7 @@ class ErrorController extends AbstractController
         // return error message as json response
         return $this->json([
             'status' => 'error',
-            'message' => $message,
+            'message' => $message
         ], $code);
     }
 
@@ -100,7 +100,7 @@ class ErrorController extends AbstractController
     {
         return $this->json([
             'status' => 'error',
-            'message' => 'This route does not exist!',
+            'message' => 'This route does not exist!'
         ], JsonResponse::HTTP_NOT_FOUND);
     }
 
@@ -120,7 +120,7 @@ class ErrorController extends AbstractController
         // return error response as json
         return new JsonResponse(json_encode([
             'status' => 'error',
-            'message' => $exception->getMessage(),
+            'message' => $exception->getMessage()
         ], JSON_UNESCAPED_SLASHES), $statusCode, json: true);
     }
 }

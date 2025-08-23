@@ -33,10 +33,10 @@ class AuthManagerTest extends TestCase
     {
         // mock dependencies
         $this->appUtil = $this->createMock(AppUtil::class);
+        $this->security = $this->createMock(Security::class);
         $this->logManager = $this->createMock(LogManager::class);
         $this->cacheManager = $this->createMock(CacheManager::class);
         $this->errorManager = $this->createMock(ErrorManager::class);
-        $this->security = $this->createMock(Security::class);
 
         // init auth manager instance
         $this->authManager = new AuthManager(
@@ -94,8 +94,7 @@ class AuthManagerTest extends TestCase
     public function testIsTokenBlacklistedWhenNotBlacklisted(): void
     {
         // mock check is cache value exists method
-        $this->cacheManager->expects($this->once())->method('checkIsCacheValueExists')
-            ->with('blacklisted-token:mocked_token')->willReturn(false);
+        $this->cacheManager->expects($this->once())->method('checkIsCacheValueExists')->with('blacklisted-token:mocked_token')->willReturn(false);
 
         // call tested method
         $isBlacklisted = $this->authManager->isTokenBlacklisted('mocked_token');
@@ -112,12 +111,10 @@ class AuthManagerTest extends TestCase
     public function testIsTokenBlacklistedWhenBlacklisted(): void
     {
         // mock check is cache value exists
-        $this->cacheManager->expects($this->once())->method('checkIsCacheValueExists')
-            ->with('blacklisted-token:mocked_token')->willReturn(true);
+        $this->cacheManager->expects($this->once())->method('checkIsCacheValueExists')->with('blacklisted-token:mocked_token')->willReturn(true);
 
         // expect get cache value method call
-        $this->cacheManager->expects($this->once())->method('getCacheValue')
-            ->with('blacklisted-token:mocked_token')->willReturn('blacklisted');
+        $this->cacheManager->expects($this->once())->method('getCacheValue')->with('blacklisted-token:mocked_token')->willReturn('blacklisted');
 
         // call tested method
         $isBlacklisted = $this->authManager->isTokenBlacklisted('mocked_token');

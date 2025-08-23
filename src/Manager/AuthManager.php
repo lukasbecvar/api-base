@@ -113,6 +113,7 @@ class AuthManager
         // get blacklisted token from cache
         $value = $this->cacheManager->getCacheValue('blacklisted-token:' . $authToken);
 
+        // return true if token is blacklisted
         return $value === 'blacklisted';
     }
 }

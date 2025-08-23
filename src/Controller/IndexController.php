@@ -54,7 +54,7 @@ class IndexController extends AbstractController
         $responseData = [
             'status' => 'success',
             'message' => 'api-base is running!',
-            'version' => $_ENV['APP_VERSION'],
+            'version' => $_ENV['APP_VERSION']
         ];
 
         // add warning if app is running in dev mode

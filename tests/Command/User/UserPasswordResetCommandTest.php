@@ -77,8 +77,7 @@ class UserPasswordResetCommandTest extends TestCase
     public function testExecuteCommandUserNotFound(): void
     {
         // simulate user not found
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(false);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(false);
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -102,16 +101,13 @@ class UserPasswordResetCommandTest extends TestCase
         $newPassword = 'new-password';
 
         // simulate user found
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // mock user manager to return the user id
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')
-            ->with('test@test.com')->willReturn($id);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn($id);
 
         // expect reset user password call
-        $this->userManager->expects($this->once())->method('resetUserPassword')->with($id)
-            ->willReturn($newPassword);
+        $this->userManager->expects($this->once())->method('resetUserPassword')->with($id)->willReturn($newPassword);
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -134,16 +130,13 @@ class UserPasswordResetCommandTest extends TestCase
         $id = 1;
 
         // simulate user found
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // mock user manager to return the user id
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')
-            ->with('test@test.com')->willReturn($id);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn($id);
 
         // simulate exception during user password reset
-        $this->userManager->expects($this->once())->method('resetUserPassword')->with($id)
-            ->willThrowException(new Exception('Reset error'));
+        $this->userManager->expects($this->once())->method('resetUserPassword')->with($id)->willThrowException(new Exception('Reset error'));
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);

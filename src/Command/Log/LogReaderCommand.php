@@ -107,6 +107,7 @@ class LogReaderCommand extends Command
                 $status = 'READED';
             }
 
+            // get logs
             $logs = $this->logManager->getLogsByStatus($status, 1, PHP_INT_MAX);
 
         // get logs by user

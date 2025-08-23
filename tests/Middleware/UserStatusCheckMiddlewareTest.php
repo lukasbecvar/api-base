@@ -57,10 +57,7 @@ class UserStatusCheckMiddlewareTest extends TestCase
         $token = 'testing_token';
 
         // mock auth token get
-        $this->authManager->expects($this->once())
-            ->method('getAuthTokenFromRequest')
-            ->with($request)
-            ->willReturn($token);
+        $this->authManager->expects($this->once())->method('getAuthTokenFromRequest')->with($request)->willReturn($token);
 
         // mock user
         $user = $this->createMock(User::class);

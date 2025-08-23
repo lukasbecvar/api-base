@@ -81,6 +81,7 @@ class UserStatusUpdateCommand extends Command
             return Command::INVALID;
         }
 
+        // update user status
         try {
             $this->userManager->updateUserStatus($id, $status);
             $io->success('User status updated.');

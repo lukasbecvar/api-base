@@ -5,4 +5,3 @@ framework:
 when@test:
     framework:
         test: true
-        session: false

@@ -79,8 +79,7 @@ class UserInfoCommandTest extends TestCase
     public function testExecuteCommandWithUserNotFound(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(false);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(false);
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -101,12 +100,10 @@ class UserInfoCommandTest extends TestCase
     public function testExecuteCommandWithSuccessfulInfoRetrieval(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // mock user id get
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')
-            ->with('test@test.com')->willReturn(1);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn(1);
 
         // mock user info get
         $this->userManager->expects($this->once())->method('getUserInfo')->with(1)->willReturn([
@@ -122,8 +119,7 @@ class UserInfoCommandTest extends TestCase
         ]);
 
         // mock browser name get
-        $this->visitorInfoUtil->expects($this->once())->method('getBrowserShortify')
-            ->with('Mozilla/5.0')->willReturn('Chrome');
+        $this->visitorInfoUtil->expects($this->once())->method('getBrowserShortify')->with('Mozilla/5.0')->willReturn('Chrome');
 
         // execute command
         $exitCode = $this->commandTester->execute(['email' => 'test@test.com']);
@@ -151,12 +147,10 @@ class UserInfoCommandTest extends TestCase
     public function testExecuteCommandWithMissingUserAgent(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')
-            ->with('test@test.com')->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // mock user id get
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')
-            ->with('test@test.com')->willReturn(1);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn(1);
 
         // mock user info get
         $this->userManager->expects($this->once())->method('getUserInfo')->with(1)->willReturn([

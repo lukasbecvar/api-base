@@ -287,9 +287,7 @@ class LogManagerTest extends TestCase
         $this->entityManagerMock->method('getClassMetadata')->with(Log::class)->willReturn($classMetadataMock);
 
         // expect database manager to truncate the table
-        $this->databaseManagerMock->expects($this->once())
-            ->method('tableTruncate')
-            ->with('test_db', 'logs');
+        $this->databaseManagerMock->expects($this->once())->method('tableTruncate')->with('test_db', 'logs');
 
         // mock saveLog to ensure it's called correctly
         $this->logManager->saveLog(

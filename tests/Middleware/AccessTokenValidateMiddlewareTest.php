@@ -49,8 +49,7 @@ class AccessTokenValidateMiddlewareTest extends TestCase
         $request->server->set('REQUEST_URI', '/api/auth/login');
 
         // mock api token from .env
-        $this->appUtil->expects($this->once())->method('getEnvValue')
-            ->with('API_TOKEN')->willReturn('valid_token');
+        $this->appUtil->expects($this->once())->method('getEnvValue')->with('API_TOKEN')->willReturn('valid_token');
 
         // expect error handler to be called for invalid token
         $this->errorManager->expects($this->once())->method('handleError')->with(
@@ -81,8 +80,7 @@ class AccessTokenValidateMiddlewareTest extends TestCase
         $request->server->set('REQUEST_URI', '/api/auth/login');
 
         // mock api token from .env
-        $this->appUtil->expects($this->once())->method('getEnvValue')
-            ->with('API_TOKEN')->willReturn('valid_token');
+        $this->appUtil->expects($this->once())->method('getEnvValue')->with('API_TOKEN')->willReturn('valid_token');
 
         // expect error handler NOT to be called for valid token
         $this->errorManager->expects($this->never())->method('handleError');

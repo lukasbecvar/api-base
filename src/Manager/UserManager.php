@@ -240,7 +240,7 @@ class UserManager
         // send email to user
         $this->emailManager->sendEmail($email, 'User registration', [
             'subject' => 'User registration',
-            'message' => 'Your user account has been created. First name: ' . $firstName . ', last name: ' . $lastName,
+            'message' => 'Your user account has been created. First name: ' . $firstName . ', last name: ' . $lastName
         ]);
 
         // log action to database
@@ -305,7 +305,7 @@ class UserManager
             'ip-address' => $ipAddress,
             'user-agent' => $userAgent,
             'status' => $status,
-            'is-active' => $status === 'active',
+            'is-active' => $status === 'active'
         ];
     }
 
@@ -437,7 +437,7 @@ class UserManager
         $this->logManager->saveLog(
             name: 'user-manager',
             message: 'User deleted: ' . $email,
-            level: LogManager::LEVEL_NOTICE,
+            level: LogManager::LEVEL_NOTICE
         );
     }
 
@@ -485,7 +485,7 @@ class UserManager
         // send email to user
         $this->emailManager->sendEmail($email, 'User status change', [
             'subject' => 'User status change',
-            'message' => 'Your user status has been changed to: ' . $status,
+            'message' => 'Your user status has been changed to: ' . $status
         ]);
 
         // log action
@@ -576,14 +576,14 @@ class UserManager
         // send email to user
         $this->emailManager->sendEmail($email, 'Password reset', [
             'subject' => 'Password reset',
-            'message' => 'Your password has been reset. New password is: ' . $password,
+            'message' => 'Your password has been reset. New password is: ' . $password
         ]);
 
         // log action to database
         $this->logManager->saveLog(
             name: 'user-manager',
             message: 'User password reset: ' . $email,
-            level: LogManager::LEVEL_INFO,
+            level: LogManager::LEVEL_INFO
         );
 
         // return new password
@@ -677,7 +677,7 @@ class UserManager
         $this->logManager->saveLog(
             name: 'user-manager',
             message: 'User role added: ' . $email . ' - ' . $role,
-            level: LogManager::LEVEL_WARNING,
+            level: LogManager::LEVEL_WARNING
         );
     }
 
@@ -737,7 +737,7 @@ class UserManager
         $this->logManager->saveLog(
             name: 'user-manager',
             message: 'User role removed: ' . $email . ' - ' . $role,
-            level: LogManager::LEVEL_WARNING,
+            level: LogManager::LEVEL_WARNING
         );
     }
 }

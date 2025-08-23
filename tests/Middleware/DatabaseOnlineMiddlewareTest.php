@@ -48,8 +48,7 @@ class DatabaseOnlineMiddlewareTest extends TestCase
     public function testRequestWithSuccessfulDatabaseConnection(): void
     {
         // mock redis connection check
-        $this->cacheManagerMock->expects($this->once())
-            ->method('isRedisConnected')->willReturn(true);
+        $this->cacheManagerMock->expects($this->once())->method('isRedisConnected')->willReturn(true);
 
         // mock the error manager
         $this->errorManagerMock->expects($this->never())->method('handleError');
@@ -66,8 +65,7 @@ class DatabaseOnlineMiddlewareTest extends TestCase
     public function testRequestWithFailedRedisConnection(): void
     {
         // mock redis connection check
-        $this->cacheManagerMock->expects($this->once())
-            ->method('isRedisConnected')->willReturn(false);
+        $this->cacheManagerMock->expects($this->once())->method('isRedisConnected')->willReturn(false);
 
         // mock the error manager
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(
@@ -87,12 +85,10 @@ class DatabaseOnlineMiddlewareTest extends TestCase
     public function testRequestWithFailedDatabaseConnection(): void
     {
         // mock redis connection check
-        $this->cacheManagerMock->expects($this->once())
-            ->method('isRedisConnected')->willReturn(true);
+        $this->cacheManagerMock->expects($this->once())->method('isRedisConnected')->willReturn(true);
 
         // mock the database connection
-        $this->connectionMock->expects($this->once())
-            ->method('executeQuery')->willThrowException(new Exception('Database connection failed'));
+        $this->connectionMock->expects($this->once())->method('executeQuery')->willThrowException(new Exception('Database connection failed'));
 
         // expect handle error method call
         $this->errorManagerMock->expects($this->once())->method('handleError')->with(

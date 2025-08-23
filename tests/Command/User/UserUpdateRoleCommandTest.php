@@ -108,12 +108,10 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithSuccessfulRoleAddition(): void
     {
         // mock get user id by email
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')
-            ->willReturn(1);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn(1);
 
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
-            ->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // expect add role to user call
         $this->userManager->expects($this->once())->method('addRoleToUser')->with(1, 'ROLE_ADMIN');
@@ -140,12 +138,10 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithSuccessfulRoleRemoval(): void
     {
         // mock get user id by email
-        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')
-            ->willReturn(1);
+        $this->userManager->expects($this->once())->method('getUserIdByEmail')->with('test@test.com')->willReturn(1);
 
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
-            ->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // expect remove role from user call
         $this->userManager->expects($this->once())->method('removeRoleFromUser')->with(1, 'ROLE_ADMIN');
@@ -172,12 +168,10 @@ class UserUpdateRoleCommandTest extends TestCase
     public function testExecuteCommandWithExceptionResponse(): void
     {
         // mock user existence check
-        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')
-            ->willReturn(true);
+        $this->userManager->expects($this->once())->method('checkIfUserEmailAlreadyRegistered')->with('test@test.com')->willReturn(true);
 
         // mock add role to user method to throw exception
-        $this->userManager->expects($this->once())->method('addRoleToUser')
-            ->willThrowException(new Exception('Database error'));
+        $this->userManager->expects($this->once())->method('addRoleToUser')->willThrowException(new Exception('Database error'));
 
         // execute command
         $exitCode = $this->commandTester->execute([

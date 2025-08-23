@@ -135,7 +135,7 @@ class RegisterController extends AbstractController
         if (count($errors) > 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => implode(', ', $errors),
+                'message' => implode(', ', $errors)
             ], JsonResponse::HTTP_BAD_REQUEST);
         }
 
@@ -149,7 +149,7 @@ class RegisterController extends AbstractController
             );
             return $this->json([
                 'status' => 'success',
-                'message' => 'User: ' . $userDTO->email . ' created successfully!',
+                'message' => 'User: ' . $userDTO->email . ' created successfully!'
             ], JsonResponse::HTTP_CREATED);
         } catch (Exception $e) {
             return $this->errorManager->handleError(
