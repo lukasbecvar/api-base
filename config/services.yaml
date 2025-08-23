@@ -27,6 +27,11 @@ services:
 
     # request middlewares
     # --------------------------------------------------------------------------------- #
+    # rate limiter middleware
+    App\Middleware\RateLimitMiddleware:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', priority: 8 }
+
     # escape request data (for security)
     App\Middleware\EscapeRequestDataMiddleware:
         tags:

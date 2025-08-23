@@ -8,6 +8,7 @@ use OpenApi\Attributes\Response;
 use OpenApi\Attributes\Property;
 use OpenApi\Attributes\JsonContent;
 use Nelmio\ApiDocBundle\Attribute\Security;
+use PhpParser\Node\Expr\Cast\Double;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
