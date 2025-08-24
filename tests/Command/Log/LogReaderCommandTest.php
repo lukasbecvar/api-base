@@ -3,7 +3,6 @@
 namespace App\Tests\Command\Log;
 
 use DateTime;
-use App\Entity\Log;
 use App\Manager\LogManager;
 use App\Manager\UserManager;
 use PHPUnit\Framework\TestCase;
@@ -79,9 +78,7 @@ class LogReaderCommandTest extends TestCase
     public function testExecuteCommandWithNoLogsFound(): void
     {
         // mock get log methods to simulate no logs found
-        $this->logManager->method('getLogsByStatus')->willReturn([]);
-        $this->logManager->method('getLogsByUserId')->willReturn([]);
-        $this->logManager->method('getLogsByIpAddress')->willReturn([]);
+        $this->logManager->method('getLogsWithUsername')->willReturn([]);
 
         // execute command
         $exitCode = $this->commandTester->execute(['--status' => 'READED']);
@@ -101,17 +98,18 @@ class LogReaderCommandTest extends TestCase
      */
     public function testExecuteCommandGetLogsByStatusWithSuccessResponse(): void
     {
-        // mock log object
-        $logMock = $this->createMock(Log::class);
-        $logMock->method('getTime')->willReturn(new DateTime('2024-12-07 10:00:00'));
-        $logMock->method('getId')->willReturn(1);
-        $logMock->method('getName')->willReturn('Test Log');
-        $logMock->method('getMessage')->willReturn('Test message');
-        $logMock->method('getIpAddress')->willReturn('192.168.1.1');
-        $logMock->method('getUserId')->willReturn(123);
+        // mock log data
+        $logData = [
+            'id' => 1,
+            'name' => 'Test Log',
+            'message' => 'Test message',
+            'time' => new DateTime('2024-12-07 10:00:00'),
+            'ip_address' => '192.168.1.1',
+            'username' => 'test@example.com'
+        ];
 
-        // mock get log methods to return the mocked log object
-        $this->logManager->method('getLogsByStatus')->willReturn([$logMock]);
+        // mock get log methods to return the mocked log data
+        $this->logManager->method('getLogsWithUsername')->willReturn([$logData]);
 
         // execute command
         $exitCode = $this->commandTester->execute(['--status' => 'READED']);
@@ -122,6 +120,7 @@ class LogReaderCommandTest extends TestCase
         // assert response
         $this->assertStringContainsString('Test Log', $output);
         $this->assertStringContainsString('Test message', $output);
+        $this->assertStringContainsString('test@example.com', $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 
@@ -132,21 +131,22 @@ class LogReaderCommandTest extends TestCase
      */
     public function testExecuteCommandGetLogsByUserWithSuccessResponse(): void
     {
-        // mock log object
-        $logMock = $this->createMock(Log::class);
-        $logMock->method('getTime')->willReturn(new DateTime('2024-12-07 10:00:00'));
-        $logMock->method('getId')->willReturn(1);
-        $logMock->method('getName')->willReturn('Test Log');
-        $logMock->method('getMessage')->willReturn('Test message');
-        $logMock->method('getIpAddress')->willReturn('192.168.1.1');
-        $logMock->method('getUserId')->willReturn(123);
+        // mock log data
+        $logData = [
+            'id' => 1,
+            'name' => 'Test Log',
+            'message' => 'Test message',
+            'time' => new DateTime('2024-12-07 10:00:00'),
+            'ip_address' => '192.168.1.1',
+            'username' => 'user@example.com'
+        ];
 
         // mock user manager to return true for user check
         $this->userManager->method('checkIfUserEmailAlreadyRegistered')->willReturn(true);
         $this->userManager->method('getUserIdByEmail')->willReturn(123);
 
-        // mock get log methods to return the mocked log object
-        $this->logManager->method('getLogsByUserId')->willReturn([$logMock]);
+        // mock get log methods to return the mocked log data
+        $this->logManager->method('getLogsWithUsername')->willReturn([$logData]);
 
         // execute command
         $exitCode = $this->commandTester->execute(['--user' => 'user@example.com']);
@@ -157,6 +157,7 @@ class LogReaderCommandTest extends TestCase
         // assert response
         $this->assertStringContainsString('Test Log', $output);
         $this->assertStringContainsString('Test message', $output);
+        $this->assertStringContainsString('user@example.com', $output);
         $this->assertEquals(Command::SUCCESS, $exitCode);
     }
 }

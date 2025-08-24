@@ -98,6 +98,9 @@ class LogReaderCommand extends Command
             throw new InvalidArgumentException('You can only use one parameter at a time.');
         }
 
+        // init search criteria array
+        $criteria = [];
+
         // get logs by status
         if ($status !== null) {
             if ($status == 'unreaded') {
@@ -106,9 +109,7 @@ class LogReaderCommand extends Command
             if ($status == 'readed') {
                 $status = 'READED';
             }
-
-            // get logs
-            $logs = $this->logManager->getLogsByStatus($status, 1, PHP_INT_MAX);
+            $criteria = ['status' => $status];
 
         // get logs by user
         } elseif ($user !== null) {
@@ -120,14 +121,15 @@ class LogReaderCommand extends Command
 
             // get user id by email
             $userId = $this->userManager->getUserIdByEmail($user);
-
-            // get logs by user email
-            $logs = $this->logManager->getLogsByUserId($userId, 1, PHP_INT_MAX);
+            $criteria = ['user_id' => $userId];
 
         // get logs by ip address
         } elseif ($ip !== null) {
-            $logs = $this->logManager->getLogsByIpAddress($ip, 1, PHP_INT_MAX);
+            $criteria = ['ip_address' => $ip];
         }
+
+        // get logs
+        $logs = $this->logManager->getLogsWithUsername($criteria, 1, PHP_INT_MAX);
 
         // check if logs are found
         if (count($logs) === 0) {
@@ -141,17 +143,17 @@ class LogReaderCommand extends Command
         $data = [];
         foreach ($logs as $log) {
             // format time
-            $time = $log->getTime();
+            $time = $log['time'];
             $formattedTime = $time ? $time->format('Y-m-d H:i:s') : 'N/A';
 
             // add log to data array
             $data[] = [
-                $log->getId(),
-                $log->getName(),
-                $log->getMessage(),
+                $log['id'],
+                $log['name'],
+                $log['message'],
                 $formattedTime,
-                $log->getIpAddress(),
-                $log->getUserId()
+                $log['ip_address'],
+                $log['username'] ?? 'Guest'
             ];
         }
 

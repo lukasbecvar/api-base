@@ -231,6 +231,28 @@ class LogManagerTest extends TestCase
     }
 
     /**
+     * Test get logs with username
+     *
+     * @return void
+     */
+    public function testGetLogsWithUsername(): void
+    {
+        // mock pagination limit from env
+        $this->appUtilMock->method('getEnvValue')->with('LIMIT_CONTENT_PER_PAGE')->willReturn('10');
+
+        // mock repository to return fake logs
+        $fakeLogs = [$this->createMock(Log::class)];
+        $this->logRepositoryMock->method('findLogsWithUsername')->with(['status' => 'UNREADED'], 1, 10)->willReturn($fakeLogs);
+
+        // call tested method
+        $logs = $this->logManager->getLogsWithUsername(['status' => 'UNREADED'], 1);
+
+        // assert logs are returned as expected
+        $this->assertCount(1, $logs);
+        $this->assertInstanceOf(Log::class, $logs[0]);
+    }
+
+    /**
      * Test update log status
      *
      * @return void

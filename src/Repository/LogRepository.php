@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Log;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -81,6 +82,32 @@ class LogRepository extends ServiceEntityRepository
             ->orderBy('l.id', 'DESC')
             ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * Find logs with username by given criteria
+     *
+     * @param array<string, mixed> $criteria The search criteria
+     * @param int $page The page number
+     * @param int $limit The limit of logs per page (default: 50)
+     *
+     * @return array<mixed> Logs list
+     */
+    public function findLogsWithUsername(array $criteria, int $page, int $limit): array
+    {
+        $queryBuilder = $this->createQueryBuilder('l')
+            ->select('l.id, l.name, l.message, l.time, l.ip_address, u.email as username')
+            ->leftJoin(User::class, 'u', 'WITH', 'l.user_id = u.id')
+            ->orderBy('l.id', 'DESC')
+            ->setFirstResult(($page - 1) * $limit)
+            ->setMaxResults($limit);
+
+        // add criteria to query
+        foreach ($criteria as $field => $value) {
+            $queryBuilder->andWhere("l.{$field} = :{$field}")->setParameter($field, $value);
+        }
 
         return $queryBuilder->getQuery()->getResult();
     }

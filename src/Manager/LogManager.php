@@ -209,6 +209,26 @@ class LogManager
     }
 
     /**
+     * Get logs by criteria with username
+     *
+     * @param array<string, mixed> $criteria The search criteria
+     * @param int $page The page number
+     * @param int|null $paginationLimit The limit of logs per page (default: get from env value LIMIT_CONTENT_PER_PAGE)
+     *
+     * @return array<mixed> Logs list
+     */
+    public function getLogsWithUsername(array $criteria, int $page, ?int $paginationLimit = null): array
+    {
+        // pagination limit
+        if ($paginationLimit === null) {
+            $paginationLimit = (int) $this->appUtil->getEnvValue('LIMIT_CONTENT_PER_PAGE');
+        }
+
+        // get logs by criteria from database
+        return $this->logRepository->findLogsWithUsername($criteria, $page, $paginationLimit);
+    }
+
+    /**
      * Update log status by log id
      *
      * @param int $id The log id
