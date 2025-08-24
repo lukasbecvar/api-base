@@ -4,7 +4,7 @@ This is a base application for a REST API in the Symfony framework that I create
 ## Index
 * [Features](#features)
 * [Getting Started](#getting-started)
-* [API-Documentation](#api-documentation)
+* [API Documentation](#api-documentation)
 * [Authentication](#authentication)
 * [Error handling](#error-handling)
 * [Logging system](#logging-system)
