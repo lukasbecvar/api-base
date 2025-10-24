@@ -3,8 +3,8 @@ when@dev:
         documentation:
             info:
                 title: 'API Base'
-                description: 'REST-API documentation'
                 version: '%env(APP_VERSION)%'
+                description: 'REST-API documentation'
 
             # api servers
             servers:

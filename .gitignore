@@ -5,14 +5,13 @@
 .docker/services
 
 # jwt key
-config/jwt
+token-keypair/
 
 # UI assets
 public/bundles/
 
 # composer packages
 vendor/
-composer.lock
 
 # symfony temp storage
 var/

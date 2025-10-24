@@ -78,6 +78,7 @@ The application has CLI commands for the LogManager and UserManager, and overall
 | `API_TOKEN` | API access token for authentication | `1234` |
 | `APP_VERSION` | App version identifier | `1.0` |
 | `TRUSTED_HOSTS` | Trusted domain names | `^.*$` |
+| `ALLOWED_ORIGINS` | Allowed origins (use * for all origins) | `*` |
 | `ALLOWED_IP_ADDRESSES` | Allowed ip addresses (use % for all IP addresses) | `%` |
 | `SSL_ONLY` | Enable only SSL traffic (true/false) | `false` |
 | `MAINTENANCE_MODE` | Enable maintenance mode (true/false) | `false` |
@@ -101,8 +102,8 @@ The application has CLI commands for the LogManager and UserManager, and overall
 | `REDIS_USER` | Redis user | `default` |
 | `REDIS_PASSWORD` | Redis password | `redis_test_password` |
 | `JWT_TOKEN_TTL` | JWT token TTL (in seconds) | `2629536` (1 month token expiration) |
-| `JWT_SECRET_KEY` | JWT secret key | `%kernel.project_dir%/config/jwt/private.pem` |
-| `JWT_PUBLIC_KEY` | JWT public key | `%kernel.project_dir%/config/jwt/public.pem` |
+| `JWT_SECRET_KEY` | JWT secret key | `%kernel.project_dir%/token-keypair/private.pem` |
+| `JWT_PUBLIC_KEY` | JWT public key | `%kernel.project_dir%/token-keypair/public.pem` |
 | `JWT_PASSPHRASE` | JWT passphrase | `f82fdd5f4644df4ba8fe9df82fdd5f4644df4ba8fe9d` |
 | `MAILER_ENABLED` | Enable mailer | `false` |
 | `MAILER_HOST` | Mailer host | `smtp.seznam.cz` |
