@@ -34,14 +34,14 @@ class LogRepository extends ServiceEntityRepository
      */
     public function findByStatus(string $status, int $page, int $limit = 50): array
     {
-        $queryBuilder = $this->createQueryBuilder('l')
-            ->where('l.status = :status')
-            ->setParameter('status', $status)
-            ->orderBy('l.id', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit);
+        $offset = max(0, ($page - 1) * $limit);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $this->findBy(
+            ['status' => $status],
+            ['id' => 'DESC'],
+            $limit,
+            $offset
+        );
     }
 
     /**
@@ -55,14 +55,14 @@ class LogRepository extends ServiceEntityRepository
      */
     public function findByUserId(int $userId, int $page, int $limit = 50): array
     {
-        $queryBuilder = $this->createQueryBuilder('l')
-            ->where('l.user_id = :user_id')
-            ->setParameter('user_id', $userId)
-            ->orderBy('l.id', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit);
+        $offset = max(0, ($page - 1) * $limit);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $this->findBy(
+            ['user_id' => $userId],
+            ['id' => 'DESC'],
+            $limit,
+            $offset
+        );
     }
 
     /**
@@ -76,14 +76,14 @@ class LogRepository extends ServiceEntityRepository
      */
     public function findByIpAddress(string $ipAddress, int $page, int $limit = 50): array
     {
-        $queryBuilder = $this->createQueryBuilder('l')
-            ->where('l.ip_address = :ip_address')
-            ->setParameter('ip_address', $ipAddress)
-            ->orderBy('l.id', 'DESC')
-            ->setFirstResult(($page - 1) * $limit)
-            ->setMaxResults($limit);
+        $offset = max(0, ($page - 1) * $limit);
 
-        return $queryBuilder->getQuery()->getResult();
+        return $this->findBy(
+            ['ip_address' => $ipAddress],
+            ['id' => 'DESC'],
+            $limit,
+            $offset
+        );
     }
 
     /**
